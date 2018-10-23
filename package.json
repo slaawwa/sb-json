@@ -1,0 +1,31 @@
+{
+  "name": "sb-json",
+  "version": "1.0.0",
+  "description": "Development api server for SB",
+  "main": "index.js",
+  "scripts": {
+    "depfront:prod": "gulp deploy --remotePath=frontend --basePath=frontend --dephost=prod",
+    "depfront": "gulp deploy --remotePath=dist --basePath=dist",
+    "depback:prod": "gulp deploy --remotePath=backend --basePath=backend --dephost=prod",
+    "depback": "npm run depback:cnf && npm run depback:cnf",
+    "depback:api": "gulp deploy --remotePath=api --basePath=api",
+    "depback:cnf": "gulp deploy --remotePath=config --basePath=config",
+    "deploy:prod": "gulp deploy --dephost=prod",
+    "deploy": "gulp deploy",
+    "depfront:del:prod": "gulp deploy --remotePath=frontend --dephost=prod --del",
+    "depfront:del": "gulp deploy --remotePath=frontend --del",
+    "depback:del:prod": "gulp deploy --remotePath=backend --dephost=prod --del",
+    "depback:del": "gulp deploy --remotePath=backend --del",
+    "deploy:del:prod": "gulp deploy --dephost=prod --del",
+    "deploy:del": "gulp deploy --del",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-git-sftp": "0.0.17",
+    "yargs": "^12.0.2"
+  }
+}

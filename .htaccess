@@ -1,0 +1,12 @@
+# Do not remove this line or mod_rewrite rules and search engine friendly URLs will stop working
+# RewriteBase /dist/
+RewriteEngine on
+
+# If a directory or a file exists, use the request directly
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+# Otherwise forward the request to index.php
+
+RewriteRule ^api/(.*)? api/$1 [L,PT]
+RewriteRule ^(.*)?$ dist/$1 [L,PT]
+# RewriteRule . marathon/index.html

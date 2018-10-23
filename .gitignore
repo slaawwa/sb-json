@@ -1,0 +1,9 @@
+
+php_errors.log
+
+node_modules/
+
+dist/
+
+config/cnf.js
+config/cnf_.php
