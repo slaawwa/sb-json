@@ -19,10 +19,15 @@ const app = new Vue({
         selectStructure: null,
         selectName: null,
         page: null,
-        message: 'Hello Vue!',
+        message: '',
         contentA: `\n{\n    "name": "Slaawwa"\n}\n`,
     },
     watch: {
+        message(mess) {
+            if (mess && !mess.endsWith('...')) {
+                setTimeout(() => this.message='', 1500)
+            }
+        },
         fName(fName) {
             console.log('fName:', fName.endsWith('.js')? 'javascript': 'json');
         },
@@ -31,19 +36,23 @@ const app = new Vue({
         selectFileClick(fName, structure, name) {
             this.selectStructure = structure
             this.selectName = name
+            this.message = 'Opening...'
             api.getFile(fName).then(({file}) => {
                 this.fName = fName
                 this.selectFile = file
                 this.contentA = typeof file === 'object'
                     ? JSON.stringify(file)
                     : file
+                this.message = ''
             })
         },
         createFileClick(fName, structure, name, item) {
             const file = prompt(`Create new file [${fName}]`, 'new-file.json');
             if (file) {
+                this.message = 'Creating file...'
                 api.putFile(`${fName}/${file}`, '').then(data => {
                     console.log('New file', data)
+                    this.message = 'Created file!'
                     
                     structure[name][file] = false
 
@@ -61,11 +70,12 @@ const app = new Vue({
         },
         selectFileSave() {
             // const selectFile = 'common/data.json'
-            console.log(' - Saving...')
+            this.message = 'Saving...'
             api.putFile(this.fName, this.contentA).then(data => {
-                console.log(' - Saved')
+                this.message = 'Saved'
             }).catch(e => {
-                console.log(' - Saving error:', e)
+                console.log('Saving error:', e)
+                this.message = 'Saving error!'
             })
         },
         selectFileOpen() {
@@ -76,7 +86,7 @@ const app = new Vue({
         selectFileDelete() {
             // const selectFile = 'common/data.json'
             if (confirm('WARNING!!! Delete?')) {
-                console.log(' - Deleting...')
+                this.message = 'Deleting...'
                 api.delFile(this.fName).then(data => {
     
                     delete this.selectStructure[this.selectName]
@@ -88,8 +98,8 @@ const app = new Vue({
                     this.$nextTick(() => {
                         this.structure = _structure
                     })
-                    console.log(' - Deleted')
                     this.selectFile = false
+                    this.message = 'Deleted!'
                 }).catch(e => {
                     console.log(' - Deleting error:', e)
                 })
@@ -120,6 +130,7 @@ const app = new Vue({
                     this.auth = true;
                     this.page = 'admin'
                     this.getStructure()
+                    this.message = 'Welcome!!!'
                 })
                 .catch(() => {
                     alert('Uncorect login')
@@ -164,3 +175,9 @@ const app = new Vue({
         fileTree,
     },
 })
+
+if (isDev) {
+    window.app = app
+}
+
+export default app

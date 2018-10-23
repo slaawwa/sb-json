@@ -21,7 +21,7 @@
 	+ README.md => once
 	+ webpack
 	+ ace cnf extra files...
-	- Feedback message
+	+ Feedback message
 	- Sort structure
 	- 'Select file' => normal info
 	- Hash url for current file
@@ -31,5 +31,6 @@
 	- Delete folder
 	- Use icons
 	- v-cloak
+	- bootstrap + refactor
 	- Commit this repo
 	- Auto commit history/notification etc. (maybe)

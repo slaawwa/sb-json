@@ -20,7 +20,7 @@
     "deploy:del": "gulp deploy --del",
     "front:clear": "rm -rf client/dist",
     "webpack": "npm run front:clear && webpack --config=config/webpack.config.babel.js",
-    "front:dev": "npm run webpack -- --env.mode=development",
+    "front:dev": "npm run webpack -- --env.mode=development --watch",
     "front:prod": "npm run webpack -- --env.mode=production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

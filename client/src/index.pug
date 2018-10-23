@@ -50,6 +50,12 @@ html
                                     button.btn.navbar-btn.btn-default(@click='selectFile=false', title='Close') X
                             ul.nav.navbar-nav.navbar-right
                                 li
+                                    transition(name="bounce")
+                                        p.navbar-text#alertMess(
+                                                v-if="message"
+                                                :style="{color: message.endsWith('...')? null: '#ff6363'}"
+                                            ) {{ message }}
+                                li
                                     a(href='#', @click.prevent='logOut') Logout
                             //- <form class="navbar-form navbar-right">
                             //- <input type="text" class="form-control" placeholder="Search...">

@@ -6,6 +6,7 @@ div(:class="_class? _class: 'file_tree'")
         label(for='fileID_newFolder', @click='clickNew()') NEW FOLDER
         input(type='radio', name='hosted_files', id='fileID_README.md')
         label(for='fileID_README.md', @click="click('README.md', null, 'README.md')") README.md
+        hr
     template(v-for='(item, name) in structure')
         template(v-if='item && item !== true')
             input(type='checkbox', :id="'folderID_'+name", :checked='checked')
@@ -43,3 +44,9 @@ div(:class="_class? _class: 'file_tree'")
         },    
     }
 </script>
+
+<style lang="less">
+    .file_tree hr {
+        margin: 0;
+    }
+</style>

@@ -342,11 +342,6 @@
                 vScrollBarAlwaysVisible: true,
                 tabSize: 4,
                 useSoftTabs: !true,
-                // enableBasicAutocompletion: true,
-                // enableSnippets: true,
-                // enableLiveAutocompletion: false
-                // enableBasicAutocompletion: true,
-                // enableLiveAutocompletion: true,
             });
         }
     }
