@@ -18,6 +18,9 @@ return [
         'auth' => true,
         'handler' => function($body) {
     
+            if ($body->file === 'README.md') {
+                $body->file = '../../README.md';
+            }
             
             $data = [
                 'file' => App::getFile($body->file),
@@ -38,6 +41,10 @@ return [
             $mess = '';
             $data = null;
             
+            if ($body->file === 'README.md') {
+                $body->file = '../../README.md';
+            }
+
             $success = App::putFile($body->file, $body->content);
     
             return ['success' => $success, 'mess' => $mess, 'data' => $data];

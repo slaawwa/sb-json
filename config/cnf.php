@@ -1,6 +1,5 @@
 <?php
 
-// var_dump('$pass');die();
 $pass = require('cnf_.php');
 $passHash = function($pass) {
     $hash = 0;
@@ -16,10 +15,6 @@ $passHash = function($pass) {
 };
 
 $passHash = $passHash($pass);
-
-// echo __DIR__ . '/../api/cmd-admin';
-
-// die();
 
 return (object) [
     'pass' => $pass,

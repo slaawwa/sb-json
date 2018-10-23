@@ -16,7 +16,8 @@
 		- For create foloder in folder: Right click on other folder type name with '.'
 
 ## TODO:
-	- Create repo
+	+ Create repo
+	+ README.md => once
 	- Config to normal
 	- Feedback message
 	- Sort structure
