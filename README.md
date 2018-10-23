@@ -22,8 +22,8 @@
 	+ webpack
 	+ ace cnf extra files...
 	+ Feedback message
-	- Sort structure
-	- 'Select file' => normal info
+	+ Sort structure
+	+ 'Select file' => normal info
 	- Hash url for current file
 	- Open/close file-tree
 	- Create root file

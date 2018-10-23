@@ -48,18 +48,19 @@ class APP {
 
         $dh = scandir($dir);
         $return = [];
+        $files = [];
 
         foreach ($dh as $folder) {
             if ($folder != '.' && $folder != '..') {
                 if (is_dir($dir . '/' . $folder)) {
                     $return[$folder] = self::listFolders($dir . '/' . $folder);
                 } else {
-                    $return[$folder] = false;
+                    $files[$folder] = false;
                 }
             }
         }
 
-        return $return;
+        return array_merge($return, $files);
     }
     
     static public function scanDir($file, $getStructure=false) {
