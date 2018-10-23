@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "depfront:prod": "gulp deploy --remotePath=frontend --basePath=frontend --dephost=prod",
-    "depfront": "gulp deploy --remotePath=dist --basePath=dist",
+    "depfront": "gulp deploy --remotePath=client/dist --basePath=client/dist",
     "depback:prod": "gulp deploy --remotePath=backend --basePath=backend --dephost=prod",
     "depback": "npm run depback:cnf && npm run depback:cnf",
     "depback:api": "gulp deploy --remotePath=api --basePath=api",
@@ -13,19 +13,53 @@
     "deploy:prod": "gulp deploy --dephost=prod",
     "deploy": "gulp deploy",
     "depfront:del:prod": "gulp deploy --remotePath=frontend --dephost=prod --del",
-    "depfront:del": "gulp deploy --remotePath=frontend --del",
+    "depfront:del": "gulp deploy --remotePath=client/dist --del",
     "depback:del:prod": "gulp deploy --remotePath=backend --dephost=prod --del",
     "depback:del": "gulp deploy --remotePath=backend --del",
     "deploy:del:prod": "gulp deploy --dephost=prod --del",
     "deploy:del": "gulp deploy --del",
+    "front:clear": "rm -rf client/dist",
+    "webpack": "npm run front:clear && webpack --config=config/webpack.config.babel.js",
+    "front:dev": "npm run webpack -- --env.mode=development",
+    "front:prod": "npm run webpack -- --env.mode=production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-transform-destructuring": "^7.1.3",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/register": "^7.0.0",
+    "ace-builds": "^1.4.1",
+    "babel-loader": "^8.0.4",
+    "copy-webpack-plugin": "^4.5.4",
+    "css-loader": "^1.0.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^2.0.0",
     "gulp": "^3.9.1",
     "gulp-git-sftp": "0.0.17",
+    "html-webpack-plugin": "^3.2.0",
+    "less": "^3.8.1",
+    "less-loader": "^4.1.0",
+    "pug": "^2.0.3",
+    "pug-loader": "^2.4.0",
+    "pug-plain-loader": "^1.0.0",
+    "raw-loader": "^0.5.1",
+    "style-loader": "^0.23.1",
+    "vue": "^2.5.17",
+    "vue-loader": "^15.4.2",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.5.17",
+    "webpack": "^4.22.0",
+    "webpack-cli": "^3.1.2",
     "yargs": "^12.0.2"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
   }
 }

@@ -3,7 +3,7 @@ php_errors.log
 
 node_modules/
 
-dist/
+client/dist/
 
 config/cnf.js
 config/cnf_.php

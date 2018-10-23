@@ -16,9 +16,11 @@
 		- For create foloder in folder: Right click on other folder type name with '.'
 
 ## TODO:
+	+ Config to normal
 	+ Create repo
 	+ README.md => once
-	- Config to normal
+	+ webpack
+	+ ace cnf extra files...
 	- Feedback message
 	- Sort structure
 	- 'Select file' => normal info
@@ -29,6 +31,5 @@
 	- Delete folder
 	- Use icons
 	- v-cloak
-	- webpack
 	- Commit this repo
 	- Auto commit history/notification etc. (maybe)

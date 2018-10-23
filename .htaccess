@@ -8,5 +8,5 @@ RewriteEngine on
 # Otherwise forward the request to index.php
 
 RewriteRule ^api/(.*)? api/$1 [L,PT]
-RewriteRule ^(.*)?$ dist/$1 [L,PT]
+RewriteRule ^(.*)?$ client/dist/$1 [L,PT]
 # RewriteRule . marathon/index.html
