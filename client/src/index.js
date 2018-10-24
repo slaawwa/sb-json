@@ -47,7 +47,7 @@ const app = new Vue({
             this.selectName = name
             this.mess = 'Opening...'
             api.getFile(fName).then(({file}) => {
-                this.fName = fName
+                location.hash = this.fName = fName
                 this.selectFile = file
                 this.contentA = typeof file === 'object'
                     ? JSON.stringify(file)
@@ -151,7 +151,19 @@ const app = new Vue({
             this.page = 'login'
         },
         getStructure() {
-            api.structure().then(structure => this.structure = structure)
+            api.structure().then(structure => {
+                this.structure = structure
+                this.$nextTick(() => this.checkUrl())
+            })
+        },
+        checkUrl() {
+            if (location.hash) {
+                const id = location.hash.replace('#', 'fileID_')
+                const domEl = document.querySelector(`[for="${id}"]`)
+                if (domEl && domEl.click) {
+                    domEl.click()
+                }
+            }
         },
     },
     mounted() {

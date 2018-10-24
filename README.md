@@ -24,7 +24,7 @@
 	+ Feedback message
 	+ Sort structure
 	+ 'Select file' => normal info
-	- Hash url for current file
+	+ Hash url for current file
 	- Open/close file-tree
 	- Create root file
 	- Create folder
@@ -32,5 +32,6 @@
 	- Use icons
 	- v-cloak
 	- bootstrap + refactor
+	- Vue routing
 	- Commit this repo
 	- Auto commit history/notification etc. (maybe)
