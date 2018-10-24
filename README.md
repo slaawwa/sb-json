@@ -25,7 +25,7 @@
 	+ Sort structure
 	+ 'Select file' => normal info
 	+ Hash url for current file
-	- Open/close file-tree
+	+ Open/close file-tree
 	- Create root file
 	- Create folder
 	- Delete folder

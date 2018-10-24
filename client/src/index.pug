@@ -63,7 +63,14 @@ html
                 #pageUI.container-fluid
                     .row
                         .col-sm-3.col-md-2.sidebar
-                            file-tree(:is-first='true', :structure='structure', :click='selectFileClick', :click-new='clickNewDir', :contextclick='createFileClick')
+                            file-tree(
+                                    :is-first='true',
+                                    :checked='false'
+                                    :structure='structure',
+                                    :click='selectFileClick',
+                                    :click-new='clickNewDir',
+                                    :contextclick='createFileClick'
+                                )
                         .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
                             #editorWrapper(v-if='selectFile !== false')
                                 //- <nav id="editorCtrl">

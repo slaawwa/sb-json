@@ -37,9 +37,9 @@ const app = new Vue({
                 setTimeout(() => this.mess='', 1500)
             }
         },
-        fName(fName) {
+        /*fName(fName) {
             console.log('fName:', fName.endsWith('.js')? 'javascript': 'json');
-        },
+        },*/
     },
     methods: {
         selectFileClick(fName, structure, name) {
@@ -162,6 +162,12 @@ const app = new Vue({
                 const domEl = document.querySelector(`[for="${id}"]`)
                 if (domEl && domEl.click) {
                     domEl.click()
+                    let parent = domEl.parentElement
+                    while (parent.classList.contains('dir_wrapper')) {
+                        const input = parent.previousSibling.previousSibling
+                        input.checked = true
+                        parent = parent.parentElement
+                    }
                 }
             }
         },
