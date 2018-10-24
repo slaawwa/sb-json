@@ -49,12 +49,12 @@ html
                                 li
                                     button.btn.navbar-btn.btn-default(@click='selectFile=false', title='Close') X
                             ul.nav.navbar-nav.navbar-right
-                                li
+                                li#alertMess
                                     transition(name="bounce")
-                                        p.navbar-text#alertMess(
-                                                v-if="message"
-                                                :style="{color: message.endsWith('...')? null: '#ff6363'}"
-                                            ) {{ message }}
+                                        p.navbar-text(
+                                                v-if="mess"
+                                                :class="alertClass"
+                                            ) {{ mess }}
                                 li
                                     a(href='#', @click.prevent='logOut') Logout
                             //- <form class="navbar-form navbar-right">

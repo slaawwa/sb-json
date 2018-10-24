@@ -19,13 +19,22 @@ const app = new Vue({
         selectStructure: null,
         selectName: null,
         page: null,
-        message: '',
-        contentA: `\n{\n    "name": "Slaawwa"\n}\n`,
+        mess: '',
+        contentA: '',
+    },
+    computed: {
+        alertClass() {
+            return {
+                colorInfo: this.mess.endsWith('...'),
+                colorDanger: this.mess.endsWith('!'),
+                colorWarning: this.mess.endsWith(' '),
+            }
+        },
     },
     watch: {
-        message(mess) {
+        mess(mess) {
             if (mess && !mess.endsWith('...')) {
-                setTimeout(() => this.message='', 1500)
+                setTimeout(() => this.mess='', 1500)
             }
         },
         fName(fName) {
@@ -36,23 +45,23 @@ const app = new Vue({
         selectFileClick(fName, structure, name) {
             this.selectStructure = structure
             this.selectName = name
-            this.message = 'Opening...'
+            this.mess = 'Opening...'
             api.getFile(fName).then(({file}) => {
                 this.fName = fName
                 this.selectFile = file
                 this.contentA = typeof file === 'object'
                     ? JSON.stringify(file)
                     : file
-                this.message = ''
+                this.mess = ''
             })
         },
         createFileClick(fName, structure, name, item) {
             const file = prompt(`Create new file [${fName}]`, 'new-file.json');
             if (file) {
-                this.message = 'Creating file...'
+                this.mess = 'Creating file...'
                 api.putFile(`${fName}/${file}`, '').then(data => {
                     console.log('New file', data)
-                    this.message = 'Created file!'
+                    this.mess = 'Created file'
                     
                     structure[name][file] = false
 
@@ -70,12 +79,12 @@ const app = new Vue({
         },
         selectFileSave() {
             // const selectFile = 'common/data.json'
-            this.message = 'Saving...'
+            this.mess = 'Saving...'
             api.putFile(this.fName, this.contentA).then(data => {
-                this.message = 'Saved'
+                this.mess = 'Saved'
             }).catch(e => {
                 console.log('Saving error:', e)
-                this.message = 'Saving error!'
+                this.mess = 'Saving error!'
             })
         },
         selectFileOpen() {
@@ -86,7 +95,7 @@ const app = new Vue({
         selectFileDelete() {
             // const selectFile = 'common/data.json'
             if (confirm('WARNING!!! Delete?')) {
-                this.message = 'Deleting...'
+                this.mess = 'Deleting...'
                 api.delFile(this.fName).then(data => {
     
                     delete this.selectStructure[this.selectName]
@@ -99,7 +108,7 @@ const app = new Vue({
                         this.structure = _structure
                     })
                     this.selectFile = false
-                    this.message = 'Deleted!'
+                    this.mess = 'Deleted!'
                 }).catch(e => {
                     console.log(' - Deleting error:', e)
                 })
@@ -130,7 +139,7 @@ const app = new Vue({
                     this.auth = true;
                     this.page = 'admin'
                     this.getStructure()
-                    this.message = 'Welcome!!!'
+                    this.mess = 'Welcome)))'
                 })
                 .catch(() => {
                     alert('Uncorect login')
@@ -152,6 +161,7 @@ const app = new Vue({
                     this.auth = auth;
                     this.page = 'admin'
                     this.getStructure()
+                    this.mess = 'Welcome)))'
                 })
                 .catch(() => {
                     localStorage.removeItem('token');

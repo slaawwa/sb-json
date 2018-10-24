@@ -46,7 +46,20 @@ body {
 }
 #app {
   #alertMess {
-    color: #908af3;
+    min-width: 200px;
+    height: 50px;
+    .navbar-text {
+      color: #63ff7c;
+      &.colorInfo {
+        color: #908af3;
+      }
+      &.colorDanger {
+        color: #ff6363;
+      }
+      &.colorWarning {
+        color: #ffca6c;
+      }
+    }
   }
   .bounce-enter-active {
     animation: bounce-in .5s;
