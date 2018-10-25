@@ -13,7 +13,7 @@
 	- Extra:
 		- Right cick on 'NEW FOLDER' for create file in root directory
 		- Double click on other folder for delete this directory
-		- For create foloder in folder: Right click on other folder type name with '.'
+		- For create foloder in folder: Right click on other folder and type name withot '.'
 
 ## TODO:
 	+ Config to normal
@@ -26,12 +26,13 @@
 	+ 'Select file' => normal info
 	+ Hash url for current file
 	+ Open/close file-tree
-	- Create root file
-	- Create folder
+	+ Create root file
+	- Create folder in folder
 	- Delete folder
 	- Use icons
 	- v-cloak
 	- bootstrap + refactor
 	- Vue routing
 	- Commit this repo
+	- Search in file-tree
 	- Auto commit history/notification etc. (maybe)

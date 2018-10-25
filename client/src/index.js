@@ -55,26 +55,32 @@ const app = new Vue({
                 this.mess = ''
             })
         },
-        createFileClick(fName, structure, name, item) {
+        createFileClick(fName, structure, name='', item='') {
             const file = prompt(`Create new file [${fName}]`, 'new-file.json');
+            const isFile = file && file.includes('.')
             if (file) {
-                this.mess = 'Creating file...'
-                api.putFile(`${fName}/${file}`, '').then(data => {
-                    console.log('New file', data)
-                    this.mess = 'Created file'
-                    
-                    structure[name][file] = false
-
-                    const _structure = structure[name]
-                    structure[name] = {}
-
-                    this.$nextTick(() => {
-                        structure[name] = _structure
+                if (isFile) {
+                    this.mess = 'Creating file...'
+                    api.putFile(`${fName}/${file}`, '').then(data => {
+                        this.mess = 'Created file'
+                        let _structure;
+                        if (name === '') {
+                            // NOTE: in root folder file 
+                            structure = this
+                            name = 'structure'
+                        }
+                        structure[name][file] = false
+                        _structure = structure[name]
+                        structure[name] = {}
+                        this.$nextTick(() => structure[name] = _structure)
                     })
-                })
-                .catch(e => {
-                    console.log('New file error', e)
-                })
+                    .catch(e => {
+                        console.log('New file error', e)
+                    })
+                } else {
+                    // NOTE: Create new folder
+                    this.clickNewDir(file/*folder*/, structure, name, fName)
+                }
             }
         },
         selectFileSave() {
@@ -114,15 +120,18 @@ const app = new Vue({
                 })
             }
         },
-
-        clickNewDir() {
-            const folder = prompt('Create New Folder', '')
+        clickNewDir(folder=null, structure=null, name='', fName='') {
+            name !== '' || (folder = prompt('Create New Folder', ''))
             if (folder) {
-                api.createFolder(folder).then(data => {
-                    const _structure = this.structure
-                    this.structure = {}
+                api.createFolder(`${fName && fName + '/'}${folder}`).then(data => {
+                    const _structure = (structure && structure[name]) || this.structure
+                    if (!structure) {
+                        structure = this
+                        name = 'structure'
+                    }
+                    structure[name] = {}
                     this.$nextTick(() => {
-                        this.structure = Object.assign({[folder]: {}}, _structure)
+                        structure[name] = Object.assign({[folder]: {}}, _structure)
                     })
                 })
             }
