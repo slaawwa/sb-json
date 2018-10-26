@@ -136,6 +136,31 @@ const app = new Vue({
                 })
             }
         },
+        delFolder(fullName, parentStructure, parentName, folderName) {
+            const assure = confirm(`Folder [${fullName}] delete?`)
+            if (assure) {
+                this.mess = 'Deleting...'
+                api.delFolder(fullName).then(() => {
+                    // TODO: Need update structure((((
+                    this.mess = 'Folder was deleted!'
+                    let structure = parentStructure;
+                    if (structure === null) {
+                        structure = this
+                        parentName = 'structure'
+                    }
+                    console.log(' - parentName:', parentName)
+                    console.log(' - folderName:', folderName)
+                    structure[parentName][folderName]= true
+                    const _structure = structure[parentName]
+                    structure[parentName] = {}
+                    this.$nextTick(() => structure[parentName] = _structure)
+                    
+                }).catch(e => {
+                    this.mess = 'Error!'
+                    console.error('Error:', e)
+                })
+            }
+        },
         changeContentA(val) {
             if (this.contentA !== val) {
                 this.contentA = val

@@ -27,8 +27,8 @@
 	+ Hash url for current file
 	+ Open/close file-tree
 	+ Create root file
-	- Create folder in folder
-	- Delete folder
+	+ Create folder in folder
+	+ Delete folder
 	- Use icons
 	- v-cloak
 	- bootstrap + refactor

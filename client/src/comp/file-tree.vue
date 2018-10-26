@@ -30,13 +30,17 @@ div(:class="_class? _class: 'file_tree'")
                 )
             label(
                     :for="'folderID_'+name"
+                    @dblclick='dblclickFolder(startDir + name, _parentStructure, _parentName, name)'
                     @contextmenu.prevent.stop='contextClick(startDir + name, structure, name, item)'
                 ) {{name}}
             file-tree(
                     :structure='item'
+                    :_parentStructure='structure'
+                    :_parentName='name'
                     _class='dir_wrapper'
                     :checked='false'
                     :start-dir="startDir + name + '/'"
+                    :dblclick-folder='dblclickFolder'
                     :click='click'
                     :contextClick='contextClick'
                 )
@@ -76,7 +80,16 @@ div(:class="_class? _class: 'file_tree'")
             click: Function,
             contextClick: Function,
             clickNew: Function,
+            dblclickFolder: Function,
             _class: String,
+            _parentStructure: {
+                type: Object,
+                default: null,
+            },
+            _parentName: {
+                type: String,
+                default: '',
+            },
         },    
     }
 </script>

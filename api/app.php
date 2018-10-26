@@ -28,6 +28,30 @@ class APP {
         return (boolean) unlink(CMD_ADMIN_DIR . $file);
     }
     
+    static public function delFolder($folder='', $isFirst=true) {
+        if ($isFirst) {
+            $folder = CMD_ADMIN_DIR . $folder;
+        }
+        $files = array_merge(
+            glob("$folder/*", GLOB_ONLYDIR), // Folders
+            glob("$folder/*.*") // Files
+        );
+        foreach ($files as $file) {
+          if (is_dir($file)) {
+              self::delFolder($file, false);
+          } else {
+            unlink($file);
+          }
+        }
+        return rmdir($folder);
+    }
+    
+    // static public function delFolder($folderName) {
+    //     $folder = CMD_ADMIN_DIR . $folderName;
+    //     array_map('unlink', glob("$folder/*.*"));
+    //     return rmdir($folder);
+    // }
+    
     static private function listFolders2path($dh, $full='') {
         foreach ($dh as $folder => $folderFiles) {
             if ($folder != '.' && $folder != '..') {

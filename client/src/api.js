@@ -66,6 +66,10 @@ const api = ((cnf=[]) => {
     params: ['file'],
     url: '/api/delFile',
 }, {
+    name: 'delFolder',
+    params: ['folder'],
+    url: '/api/delFolder',
+}, {
     name: 'createFolder',
     params: ['folder'],
     url: '/api/createFolder',

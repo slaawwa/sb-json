@@ -75,5 +75,18 @@ return [
     
             return ['success' => $success, 'mess' => $mess, 'data' => $data];
         }
+    ], [
+        'path' => '/api/delFolder',
+        'method' => 'POST',
+        'auth' => true,
+        'handler' => function($body) {
+    
+            $mess = '';
+            $data = null;
+            
+            $success = App::delFolder($body->folder);
+    
+            return ['success' => $success, 'mess' => $mess, 'data' => $data];
+        }
     ],
 ];

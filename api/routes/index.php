@@ -1,5 +1,10 @@
 <?
 
+// foreach(glob('includes/plugins/*.php') as $plugin)
+// {
+// 	include_once($plugin);	
+// }
+
 $authRoutes = require('authCtrl.php');
 $structureRoutes = require('structureCtrl.php');
 
@@ -16,7 +21,7 @@ $routes = array_merge(
                 $ext = pathinfo($file)['extension'];
                 if ($ext === 'php') {
                     $f = require($file);
-                    $file = CMD_ADMIN_DIR . $f['default'];
+                    $file = $f['default'];
                 }
                 $file_exist = file_exists($file);
                 $data = file_get_contents($file_exist? $file: $errorFile);
