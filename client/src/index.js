@@ -72,7 +72,11 @@ const app = new Vue({
                         structure[name][file] = false
                         _structure = structure[name]
                         structure[name] = {}
-                        this.$nextTick(() => structure[name] = _structure)
+                        location.hash = `${fName}/${file}`;
+                        this.$nextTick(() => {
+                            structure[name] = _structure
+                            this.$nextTick(() => this.checkUrl())
+                        })
                     })
                     .catch(e => {
                         console.log('New file error', e)
@@ -99,22 +103,38 @@ const app = new Vue({
             window.open(url, '_blank')
         },
         selectFileDelete() {
-            // const selectFile = 'common/data.json'
-            if (confirm('WARNING!!! Delete?')) {
+            if (confirm('WARNING!!! Delete file?')) {
                 this.mess = 'Deleting...'
                 api.delFile(this.fName).then(data => {
     
                     delete this.selectStructure[this.selectName]
+                    
+                    const p = this.fName.lastIndexOf('/')
+                    const pp = this.fName.split('/')
+                    const folder = p !== -1 && this.fName.substring(0, p)
+                    
+                    const el = `[id='folderID_${folder}']`
     
                     const _structure = this.structure
     
                     this.structure = {}
     
-                    this.$nextTick(() => {
-                        this.structure = _structure
-                    })
                     this.selectFile = false
                     this.mess = 'Deleted!'
+    
+                    this.$nextTick(() => {
+                        this.structure = _structure
+                        if (!folder) return
+                        this.$nextTick(() => {
+                            p.pop()
+                            p.reduce((p, res) => {
+                                document
+                                    .querySelector(`[id="folderID_${p + res}"]`)
+                                    .checked = !false
+                              return p + res + '/'
+                            }, '')
+                        })
+                    })
                 }).catch(e => {
                     console.log(' - Deleting error:', e)
                 })
@@ -132,6 +152,9 @@ const app = new Vue({
                     structure[name] = {}
                     this.$nextTick(() => {
                         structure[name] = Object.assign({[folder]: {}}, _structure)
+                        this.$nextTick(() => {
+                            document.querySelector(`[id="folderID_${fName}"]`).checked = true
+                        })
                     })
                 })
             }

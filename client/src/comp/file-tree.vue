@@ -25,11 +25,11 @@ div(:class="_class? _class: 'file_tree'")
         template(v-if='item && item !== true')
             input(
                     type='checkbox'
-                    :id="'folderID_'+name"
+                    :id="'folderID_'+startDir+name"
                     :checked='checked'
                 )
             label(
-                    :for="'folderID_'+name"
+                    :for="'folderID_'+startDir+name"
                     @dblclick='dblclickFolder(startDir + name, _parentStructure, _parentName, name)'
                     @contextmenu.prevent.stop='contextClick(startDir + name, structure, name, item)'
                 ) {{name}}

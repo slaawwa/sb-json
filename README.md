@@ -29,10 +29,14 @@
 	+ Create root file
 	+ Create folder in folder
 	+ Delete folder
+	+ Open new file
+	+ Don't close folder if create new folder
+	+ Title in html
 	- Use icons
 	- v-cloak
 	- bootstrap + refactor
 	- Vue routing
-	- Commit this repo
+	+ Commit this repo
 	- Search in file-tree
+	- Dynamic route (php -> glob by Ctrl file)
 	- Auto commit history/notification etc. (maybe)
