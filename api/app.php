@@ -9,6 +9,37 @@ class APP {
     static private $_structure;
     static private $_structurePath = [];
     
+    static private $_props = [];
+    
+    static public function set($propName, $value) {
+        self::$_props[$propName] = $value;
+    }
+    
+    static public function get($propName) {
+        return self::$_props[$propName];
+    }
+    
+    static public function checkPass($pass) {
+        $passHash = self::passHash($pass);
+        $success = self::get('config')->passHash === $passHash;
+        return $success? $passHash: null;
+    }
+
+    static public function passHash($pass) {
+        
+        $hash = 0;
+        if (strlen($pass) === 0) {
+            return $hash;
+        }
+        $pass .= self::get('config')->salt;
+        for ($i = 0; $i < strlen($pass); $i++) {
+            $chr = ord($pass[$i]);
+            $hash  = (($hash << 5) - $hash) + $chr;
+            $hash = $hash & 0xffffffff;
+        }
+        return $hash;
+    }
+    
     static public function getFile($file) {
         if (file_exists(CMD_ADMIN_DIR . $file)) {
             return file_get_contents(CMD_ADMIN_DIR . $file);

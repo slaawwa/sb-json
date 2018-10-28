@@ -20,14 +20,15 @@ nav.navbar.navbar-inverse.navbar-fixed-top
 
         #navbar.navbar-collapse.collapse(v-if='selectFile !== false')
             .btn-group
-                button.btn.navbar-btn.btn-default(
+                button.btn.navbar-btn.btn-success(
                         @click='selectFileSave'
-                        title="Save"
+                        title='Save (Ctrl + S)'
+                        :disabled='!contentIsChanged'
                     ) 
                         i.glyphicon.glyphicon-floppy-disk
                         |  Save
     
-                button.btn.navbar-btn.btn-default(
+                button.btn.navbar-btn.btn-info(
                         @click='selectFileOpen'
                         title='Open in new tab'
                     )
@@ -37,10 +38,11 @@ nav.navbar.navbar-inverse.navbar-fixed-top
                 button.btn.navbar-btn.btn-danger(
                         @click='selectFileDelete'
                         title='Delete'
+                        :disabled='cantDelete'
                     )
                         i.glyphicon.glyphicon-trash
     
-                button.btn.navbar-btn.btn-default(
+                button.btn.navbar-btn.btn-warning(
                         @click='selectFile=false'
                         title='Close'
                     )
@@ -57,4 +59,8 @@ nav.navbar.navbar-inverse.navbar-fixed-top
                     a(
                             href='#'
                             @click.prevent='logOut'
-                        ) Logout
+                            title='Logout'
+                        )
+                        i.glyphicon.glyphicon-log-out
+                        | 
+                        | Exit

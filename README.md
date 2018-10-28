@@ -34,9 +34,9 @@
 	+ Title in html
 	+ Use icons
 	+ v-cloak
-	- bootstrap + refactor
+	+ bootstrap + refactor
 	- Vue routing
 	+ Commit this repo
 	- Search in file-tree
-	- Dynamic route (php -> glob by Ctrl file)
+	+ Dynamic route (php -> glob by Ctrl file)
 	- Auto commit history/notification etc. (maybe)

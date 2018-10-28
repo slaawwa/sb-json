@@ -15,9 +15,9 @@
             #editorWrapper(v-if='selectFile !== false')
                 editor(
                         editor-id='editor',
-                        :content='contentA',
-                        :lang="fName.endsWith('.php')? 'php': (fName.endsWith('.js')? 'javascript': (fName.endsWith('.md')? 'markdown': 'json'))",
-                        v-on:change-content='changeContentA'
+                        :content='fileContent',
+                        :lang='lang',
+                        v-on:change-content='changeFileContent'
                     )
             span(v-else='')
                 //- Select file

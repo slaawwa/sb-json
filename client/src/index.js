@@ -1,17 +1,16 @@
 
 import Vue from 'vue'
 
-import api from './api'
+import api from './js/api'
 
-import editor from './comp/editor.vue'
-import fileTree from './comp/file-tree.vue'
+import editor from './js/comp/editor'
+import fileTree from './js/comp/file-tree'
 
-import './style.less'
+import './index.less'
 
 const app = new Vue({
     el: '#app',
     data: {
-        auth: null,
         login: '',
         fName: '',
         selectFile: false,
@@ -20,9 +19,30 @@ const app = new Vue({
         selectName: null,
         page: null,
         mess: '',
-        contentA: '',
+        fileBefore: '',
+        fileContent: '',
     },
     computed: {
+        lang() {
+            const ext = this && this.toLowerCase && this.toLowerCase().match(/(\w+)$/)[0]
+            switch (ext) {
+                case 'js':
+                    ext = 'javascript'
+                break;
+                case 'md':
+                    ext = 'markdown'
+                break;
+                // default:
+                    // return 'json'
+            }
+            return ext
+        },
+        cantDelete() {
+            return ['README.md', 'error.json'].includes( this.fName ) 
+        },
+        contentIsChanged() {
+            return this.fileBefore !== this.fileContent
+        },
         alertClass() {
             return {
                 colorInfo: this.mess.endsWith('...'),
@@ -37,9 +57,6 @@ const app = new Vue({
                 setTimeout(() => this.mess='', 1500)
             }
         },
-        /*fName(fName) {
-            console.log('fName:', fName.endsWith('.js')? 'javascript': 'json');
-        },*/
     },
     methods: {
         selectFileClick(fName, structure, name) {
@@ -49,9 +66,10 @@ const app = new Vue({
             api.getFile(fName).then(({file}) => {
                 location.hash = this.fName = fName
                 this.selectFile = file
-                this.contentA = typeof file === 'object'
+                this.fileContent = typeof file === 'object'
                     ? JSON.stringify(file)
                     : file
+                this.fileBefore = this.fileContent
                 this.mess = ''
             })
         },
@@ -90,8 +108,9 @@ const app = new Vue({
         selectFileSave() {
             // const selectFile = 'common/data.json'
             this.mess = 'Saving...'
-            api.putFile(this.fName, this.contentA).then(data => {
+            api.putFile(this.fName, this.fileContent).then(data => {
                 this.mess = 'Saved'
+                this.fileBefore = this.fileContent
             }).catch(e => {
                 console.log('Saving error:', e)
                 this.mess = 'Saving error!'
@@ -184,16 +203,15 @@ const app = new Vue({
                 })
             }
         },
-        changeContentA(val) {
-            if (this.contentA !== val) {
-                this.contentA = val
+        changeFileContent(val) {
+            if (this.fileContent !== val) {
+                this.fileContent = val
             }
         },
         send() {
             api.auth(this.login)
                 .then(({token}) => {
                     localStorage.token = token
-                    this.auth = true;
                     this.page = 'admin'
                     this.getStructure()
                     this.mess = 'Welcome)))'
@@ -232,8 +250,7 @@ const app = new Vue({
     mounted() {
         if (localStorage.token) {
             api.checkToken(localStorage.token)
-                .then(({auth}) => {
-                    this.auth = auth;
+                .then((/*{auth}*/) => {
                     this.page = 'admin'
                     this.getStructure()
                     this.mess = 'Welcome)))'

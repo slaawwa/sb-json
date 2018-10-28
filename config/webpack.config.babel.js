@@ -73,7 +73,7 @@ export default ({mode}) => {
                     fallback: 'style-loader'
                 })
             }, {
-                test: /\.(eot|ttf|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                test: /\.(svg|eot|ttf|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 use: 'file-loader?name=static/fonts/[name].[ext]',
             }, {
                 test: /\.pug$/,

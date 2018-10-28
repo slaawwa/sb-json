@@ -1,37 +1,13 @@
 <?
 
-// foreach(glob('includes/plugins/*.php') as $plugin)
-// {
-// 	include_once($plugin);	
-// }
+$routes = [];
 
-$authRoutes = require('authCtrl.php');
-$structureRoutes = require('structureCtrl.php');
-
-$errorFile = __DIR__.'/../cmd-admin/error.json';
-
-$routes = array_merge(
-    [
-        [
-            'path' => '/api/?cmd=admin-',
-            'withGET' => true,
-            'method' => '*',
-            'handler' => function() use ($errorFile, $fn) {
-                $file = App::scanDir(substr( $_GET['cmd'], 6 ));
-                $ext = pathinfo($file)['extension'];
-                if ($ext === 'php') {
-                    $f = require($file);
-                    $file = $f['default'];
-                }
-                $file_exist = file_exists($file);
-                $data = file_get_contents($file_exist? $file: $errorFile);
-                // $data = json_decode($data, true);
-                return $data;
-            }
-        ]
-    ],
-    $authRoutes,
-    $structureRoutes
-);
+foreach(glob(__DIR__ . '/*Ctrl.php') as $php) {
+	$route = require($php);
+    if ($route && !empty($route['path'])) {
+        $route = [$route];
+    }
+    $routes = array_merge($routes, $route);
+}
 
 return $routes;

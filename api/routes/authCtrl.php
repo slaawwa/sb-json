@@ -5,9 +5,10 @@ return [
         'path' => '/api/auth',
         'method' => 'POST',
         'handler' => function($body, $cnf) {
+            $passHash = app::checkPass($body->login);
             return [
-                "success" => true,
-                "data" => ['token' => $cnf->passHash],
+                'success' => (boolean) $passHash,
+                'data' => $passHash? ['token' => $passHash]: null,
             ];
         },
     ], [

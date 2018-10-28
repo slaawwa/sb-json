@@ -3,43 +3,17 @@ html
     head
         meta(charset='utf-8')
         title SB JSON • DEV
-        //- Latest compiled and minified CSS
-        link(
-                rel='stylesheet',
-                href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
-                integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u',
-                crossorigin='anonymous'
-            )
-        //- Optional theme
-        link(
-                rel='stylesheet',
-                href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css',
-                integrity='sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp',
-                crossorigin='anonymous'
-            )
-        //- link(rel='stylesheet', href='/css/login.css')
     body
         #app(v-cloak)
             .container(v-if="page === 'login'", key='page')
             
-                include loginPage
+                include pug/loginPage
 
             div(v-if="page === 'admin'", key='page')
                 
-                include menu
+                include pug/menu
 
-                include adminPage
+                include pug/adminPage
 
             p#pageLoading(v-if='!page', key='page')
                 | Loading...
-
-        //- script(src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js')
-        //- <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-        //- <script src="https://rawgit.com/ajaxorg/ace-builds/master/src-min-noconflict/ace.js"></script>
-        //- script(src='https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.1/ace.js')
-        //- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        //- Latest compiled and minified JavaScript
-        //- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        //- script(src='/js/comp-file-tree.js')
-        //- script(src='/js/comp-editor.js')
-        //- script(src='/js/main.js')

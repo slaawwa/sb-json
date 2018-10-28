@@ -1,31 +1,31 @@
 <?php
 
-  $cnf = require('../config/cnf.php');
   require('app.php');
-  
+
+  $cnf = require('../config/cnf.php');
+
   $routes = require('routes/index.php');
-  
-  
+
   // PREPERE
-  
+
     $method = $_SERVER['REQUEST_METHOD'];
     
     $url = $_SERVER[isset($_SERVER['REDIRECT_URL'])
       ? 'REDIRECT_URL'
       : 'REQUEST_URI'];
-    
+
     if (strpos($url, '?')) {
       $url = explode('?', $url)[0];
     }
-    
+
     $postData = App::getPost();
-  
+
     $user = App::auth($cnf);
-  
+
   // PREPERE
-  
+
   $route = null;
-  
+
   foreach ($routes as $_route) {
     $thisMethod = $_route['method'] === '*' || $_route['method'] === $method;
     if (!isset($_route['withGET'])) {
@@ -52,6 +52,5 @@
       'mess' => 'Not found #404',
     ];
   }
-  
+
   echo App::response($data);
-  

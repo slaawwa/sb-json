@@ -1,25 +1,19 @@
 <?php
 
-$pass = require('cnf_.php');
-$passHash = function($pass) {
-    $hash = 0;
-    if (strlen($pass) === 0) {
-        return $hash;
-    }
-    for ($i = 0; $i < strlen($pass); $i++) {
-        $chr = ord($pass[$i]);
-        $hash  = (($hash << 5) - $hash) + $chr;
-        $hash = $hash & 0xffffffff;
-    }
-    return $hash;
-};
+$cnf = require('cnf_.php');
 
-$passHash = $passHash($pass);
-
-return (object) [
-    'pass' => $pass,
-    'passHash' => $passHash, 
+$_cnf = (object) [
+    'salt' => $cnf->salt,
+    'passHash' => null,
     'folder' => [
         'dist' => __DIR__ . '/../api/cmd-admin',
     ],
 ];
+
+app::set('config', $_cnf);
+
+$_cnf->passHash = app::passHash($cnf->pass);
+
+app::set('config', $_cnf);
+
+return $_cnf;
