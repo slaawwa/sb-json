@@ -5,112 +5,35 @@ html
         title SB JSON • DEV
         //- Latest compiled and minified CSS
         link(
-            rel='stylesheet',
-            href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
-            integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u',
-            crossorigin='anonymous'
-        )
+                rel='stylesheet',
+                href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+                integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u',
+                crossorigin='anonymous'
+            )
         //- Optional theme
         link(
-            rel='stylesheet',
-            href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css',
-            integrity='sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp',
-            crossorigin='anonymous'
-        )
+                rel='stylesheet',
+                href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css',
+                integrity='sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp',
+                crossorigin='anonymous'
+            )
         //- link(rel='stylesheet', href='/css/login.css')
     body
         #app
-            div.container(v-if="page === 'login'", key='page')
-                form.form-signin(@submit.prevent='send', autocomplete='off')
-                    h2.form-signin-heading Enter page
-                    label.sr-only(for='inputEmail') Email address
-                    input#inputEmail.form-control(type='email', placeholder='Email address', required='', autofocus='')
-                    label.sr-only(for='inputPassword') Password
-                    input#inputPassword.form-control(type='password', placeholder='Password', required='', v-model='login')
-                    button.btn.btn-lg.btn-primary.btn-block(type='submit') Login
+            .container(v-if="page === 'login'", key='page')
+            
+                include loginPage
+
             div(v-if="page === 'admin'", key='page')
-                nav.navbar.navbar-inverse.navbar-fixed-top
-                    .container-fluid
-                        .navbar-header
-                            button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
-                                span.sr-only Toggle navigation
-                                span.icon-bar
-                                span.icon-bar
-                                span.icon-bar
-                            a.navbar-brand(href='/', onclick='false') SB JSON
-                        #navbar.navbar-collapse.collapse
-                            ul.nav.navbar-nav(v-if='selectFile !== false')
-                                li
-                                    button.btn.navbar-btn.btn-default(@click='selectFileSave', title='Save') Save
-                                li
-                                    button.btn.navbar-btn.btn-danger(@click='selectFileDelete', title='Delete') DEL
-                                li
-                                    button.btn.navbar-btn.btn-default(@click='selectFileOpen', title='Open in new tab') Try OPEN
-                                li
-                                    button.btn.navbar-btn.btn-default(@click='selectFile=false', title='Close') X
-                            ul.nav.navbar-nav.navbar-right
-                                li#alertMess
-                                    transition(name="bounce")
-                                        p.navbar-text(
-                                                v-if="mess"
-                                                :class="alertClass"
-                                            ) {{ mess }}
-                                li
-                                    a(href='#', @click.prevent='logOut') Logout
-                            //- <form class="navbar-form navbar-right">
-                            //- <input type="text" class="form-control" placeholder="Search...">
-                            //- </form>
-                #pageUI.container-fluid
-                    .row
-                        .col-sm-3.col-md-2.sidebar
-                            file-tree(
-                                    :is-first='true',
-                                    :checked='false'
-                                    :structure='structure',
-                                    :click='selectFileClick',
-                                    :click-new='clickNewDir',
-                                    :context-click='createFileClick'
-                                    :dblclick-folder='delFolder'
-                                )
-                        .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
-                            #editorWrapper(v-if='selectFile !== false')
-                                //- <nav id="editorCtrl">
-                                //- <button @click="selectFileSave" class="btn btn-default">Save</button>
-                                //- <button @click="selectFile=false" class="btn btn-default">X</button>
-                                //- <button @click="selectFileDelete" class="btn btn-danger">DEL</button>
-                                //- </nav>
-                                editor(
-                                        editor-id='editor',
-                                        :content='contentA',
-                                        :lang="fName.endsWith('.php')? 'php': (fName.endsWith('.js')? 'javascript': (fName.endsWith('.md')? 'markdown': 'json'))",
-                                        v-on:change-content='changeContentA'
-                                    )
-                            span(v-else='')
-                                //- Select file
-                                h1
-                                    a#Structure_for_development_api_0
-                                    | Structure for development api
-                                h2
-                                    a#How_to_use_2
-                                    | How to use
-                                ul
-                                    li Click on ‘NEW FOLDER’ for create new folder
-                                    li Right click on other folders and input new file name for create new file
-                                    li
-                                        | Click on file for open current file
-                                        ul
-                                            li Change file and click "Save" or ‘Ctrl + S’
-                                            li Click ‘DEL’ for delete file
-                                            li Click ‘X’ for close file
-                                            li Click ‘Try OPEN’ for try open link in new tab
-                                    li
-                                        | Extra:
-                                        ul
-                                            li Right cick on ‘NEW FOLDER’ for create file in root directory
-                                            li Double click on other folder for delete this directory
-                                            li For create foloder in folder: Right click on other folder type name with ‘.’
-            p#pageLoading(v-if='!page', key='page') Loading
-        // script(src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js')
+                
+                include menu
+
+                include adminPage
+
+            p#pageLoading(v-if='!page', key='page')
+                | Loading
+
+        //- script(src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js')
         //- <script src="https://cdn.jsdelivr.net/npm/vue"></script>
         //- <script src="https://rawgit.com/ajaxorg/ace-builds/master/src-min-noconflict/ace.js"></script>
         //- script(src='https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.1/ace.js')
