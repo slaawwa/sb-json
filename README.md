@@ -32,8 +32,8 @@
 	+ Open new file
 	+ Don't close folder if create new folder
 	+ Title in html
-	- Use icons
-	- v-cloak
+	+ Use icons
+	+ v-cloak
 	- bootstrap + refactor
 	- Vue routing
 	+ Commit this repo

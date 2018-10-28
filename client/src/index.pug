@@ -19,7 +19,7 @@ html
             )
         //- link(rel='stylesheet', href='/css/login.css')
     body
-        #app
+        #app(v-cloak)
             .container(v-if="page === 'login'", key='page')
             
                 include loginPage
@@ -31,7 +31,7 @@ html
                 include adminPage
 
             p#pageLoading(v-if='!page', key='page')
-                | Loading
+                | Loading...
 
         //- script(src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js')
         //- <script src="https://cdn.jsdelivr.net/npm/vue"></script>
