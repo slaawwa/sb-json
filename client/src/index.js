@@ -24,7 +24,7 @@ const app = new Vue({
     },
     computed: {
         lang() {
-            const ext = this && this.toLowerCase && this.toLowerCase().match(/(\w+)$/)[0]
+            let ext = this.fName && this.fName.toLowerCase && this.fName.toLowerCase().match(/(\w+)$/)[0]
             switch (ext) {
                 case 'js':
                     ext = 'javascript'
@@ -145,8 +145,8 @@ const app = new Vue({
                         this.structure = _structure
                         if (!folder) return
                         this.$nextTick(() => {
-                            p.pop()
-                            p.reduce((p, res) => {
+                            pp.pop()
+                            pp.reduce((p, res) => {
                                 document
                                     .querySelector(`[id="folderID_${p + res}"]`)
                                     .checked = !false
