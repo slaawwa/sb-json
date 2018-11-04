@@ -59,6 +59,10 @@ const app = new Vue({
         },
     },
     methods: {
+        fileClose() {
+            this.selectFile = false
+            location.hash = ''
+        },
         selectFileClick(fName, structure, name) {
             this.selectStructure = structure
             this.selectName = name
