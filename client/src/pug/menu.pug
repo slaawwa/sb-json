@@ -18,8 +18,8 @@ nav.navbar.navbar-inverse.navbar-fixed-top
                     onclick='false'
                 ) SB JSON
 
-        #navbar.navbar-collapse.collapse(v-if='selectFile !== false')
-            .btn-group
+        #navbar.navbar-collapse.collapse
+            .btn-group(v-if='selectFile !== false')
                 button.btn.navbar-btn.btn-success(
                         @click='selectFileSave'
                         title='Save (Ctrl + S)'
