@@ -14,9 +14,9 @@ return [
     ], [
         'path' => '/api/token',
         'method' => '*',
-        'handler' => function($body=null) {
+        'handler' => function($body=null, $cnf) {
     
-            $success = $body && isset($body->token) && $body->token === $cnf->passHash;
+            $success = $body && isset($body->token) && (int) $body->token === $cnf->passHash;
             $data = [
                 'auth' => $success
             ];
