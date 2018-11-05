@@ -62,8 +62,14 @@ const app = new Vue({
         file2pretty() {
             if (this.fileContent && this.fileContent.trim()) {
                 let json = '';
-                eval(`json = ${this.fileContent}`)
-                this.fileContent = JSON.stringify(json, null, 4)
+                try {
+                    eval(`json = ${this.fileContent}`)
+                    this.fileContent = JSON.stringify(json, null, 4)
+                    this.mess = 'Formated success'
+                } catch (e) {
+                    console.error(e)
+                    this.mess = e.toString()+'!'
+                }
             }
         },
         fileClose() {
