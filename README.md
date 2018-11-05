@@ -41,4 +41,4 @@
 	+ Dynamic route (php -> glob by Ctrl file)
 	+ Fix bug with json hightlight
 	+ If bad token uncorrect work(
-	- Auto commit history/notification etc. (maybe)
+	+ Auto commit history/notification etc. (maybe)
