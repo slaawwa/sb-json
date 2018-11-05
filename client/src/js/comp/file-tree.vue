@@ -95,7 +95,11 @@ div(:class="_class? _class: 'file_tree'")
 </script>
 
 <style lang="less">
-    .file_tree hr {
-        margin: 0;
+    .file_tree {
+        max-height: 550px;
+        overflow-y: auto;
+        hr {
+            margin: 0;
+        }
     }
 </style>
