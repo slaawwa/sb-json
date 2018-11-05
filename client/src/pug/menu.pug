@@ -20,6 +20,13 @@ nav.navbar.navbar-inverse.navbar-fixed-top
 
         #navbar.navbar-collapse.collapse
             .btn-group(v-if='selectFile !== false')
+                button.btn.navbar-btn.btn-default(
+                        @click='file2pretty'
+                        title='Format json to pretty'
+                        v-if="fName && fName.endsWith('.json')"
+                    )
+                        i.glyphicon.glyphicon-indent-left
+
                 button.btn.navbar-btn.btn-success(
                         @click='selectFileSave'
                         title='Save (Ctrl + S)'

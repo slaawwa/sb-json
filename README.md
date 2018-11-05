@@ -41,4 +41,5 @@
 	+ Dynamic route (php -> glob by Ctrl file)
 	+ Fix bug with json hightlight
 	+ If bad token uncorrect work(
+	+ Add btn 'Format' for transform json file to read format
 	+ Auto commit history/notification etc. (maybe)

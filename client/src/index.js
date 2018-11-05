@@ -59,6 +59,13 @@ const app = new Vue({
         },
     },
     methods: {
+        file2pretty() {
+            if (this.fileContent && this.fileContent.trim()) {
+                let json = '';
+                eval(`json = ${this.fileContent}`)
+                this.fileContent = JSON.stringify(json, null, 4)
+            }
+        },
         fileClose() {
             this.selectFile = false
             location.hash = ''
