@@ -46,6 +46,8 @@ return [
             }
 
             $success = App::putFile($body->file, $body->content);
+            
+            App::log('Save file: `'.$body->file.'`');
     
             return ['success' => $success, 'mess' => $mess, 'data' => $data];
         },
@@ -59,6 +61,8 @@ return [
             $data = null;
     
             $success = App::delFile($body->file);
+
+            App::log('Del file: `'.$body->file.'`');
     
             return ['success' => $success, 'mess' => $mess, 'data' => $data];
         },
@@ -72,6 +76,8 @@ return [
             $data = null;
             
             $success = App::createFolder($body->folder);
+            
+            App::log('Create folder: `'.$body->folder.'`');
     
             return ['success' => $success, 'mess' => $mess, 'data' => $data];
         }
@@ -85,6 +91,8 @@ return [
             $data = null;
             
             $success = App::delFolder($body->folder);
+
+            App::log('Del folder: `'.$body->folder.'`');
     
             return ['success' => $success, 'mess' => $mess, 'data' => $data];
         }

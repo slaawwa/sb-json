@@ -156,5 +156,22 @@ class APP {
         } else {
             return false;
         }
-    } 
+    }
+    
+    static public function log($mess='') {
+        
+        $logUrl = self::get('config')->logUrl;
+
+        if ($logUrl) {
+        
+            $extra = htmlentities(urlencode($mess));
+            
+            file_get_contents($logUrl.$extra);
+        }
+        
+    }
 };
+
+$cnf = require('../config/cnf.php');
+
+app::set('config', $cnf);
