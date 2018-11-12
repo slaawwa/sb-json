@@ -11,17 +11,26 @@ const api = ((cnf=[]) => {
                     counter++;
                 }
             }
-            if (localStorage.token) {
+            
+            if (localStorage.token && !c.noToken) {
                 data.token = localStorage.token;
             }
-            return fetch(c.url, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'x-requested-with': 'XMLHttpRequest',
-                },
-                body: JSON.stringify(data),
+            
+            const headers = Object.assign({
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'x-requested-with': 'XMLHttpRequest',
+            }, c.headers || {})
+            
+            if (c.defContentType) {
+                delete headers['Content-Type']
+            }
+            
+            return fetch(typeof c.url === 'function'? c.url(): c.url, {
+                method: c.method || 'POST',
+                headers,
+                // credentials: 'same-origin',
+                body: c.noJSON? data: JSON.stringify(data),
             })
                 .then(r => r.json())
                 .then(r => {
@@ -76,6 +85,28 @@ const api = ((cnf=[]) => {
 }, {
     name: 'userGoaalCreate',
     url: '/api/?cmd=admin-user-goal-demo-create'
+}, {
+    name: 'uploadBackup',
+    defContentType: true,
+    noJSON: true,
+    url: () => '/api/backup/upload?token=' + localStorage.token,
+}, {
+    name: 'createBackup',
+    url: '/api/backup/create'
+}, {
+    name: 'refreshBackups',
+    url: '/api/backup/refresh'
+}, {
+    name: 'delBackup',
+    params: ['file'],
+    url: '/api/backup/delete'
+}, {
+    name: 'applyBackup',
+    params: ['file'],
+    url: '/api/backup/apply'
+}, {
+    name: 'switchBackup',
+    url: '/api/backup/switch'
 }])
 
 export default api

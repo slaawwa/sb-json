@@ -2,6 +2,8 @@
 php_errors.log
 
 node_modules/
+api/backups/
+api/cmd-admin-tmp/
 
 client/dist/
 

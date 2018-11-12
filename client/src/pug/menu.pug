@@ -63,6 +63,13 @@ nav.navbar.navbar-inverse.navbar-fixed-top
                                 :class="alertClass"
                             ) {{ mess }}
                 li
+                    button.btn.btn-primary.navbar-btn(
+                            type="button"
+                            data-toggle="modal"
+                            data-target="#myModal"
+                            @click="showBackup = true"
+                        ) Backups
+                li
                     a(
                             href='#'
                             @click.prevent='logOut'

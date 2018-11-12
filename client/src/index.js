@@ -21,6 +21,8 @@ const app = new Vue({
         mess: '',
         fileBefore: '',
         fileContent: '',
+        showBackup: false,
+        backupStructure: {},
     },
     computed: {
         lang() {
@@ -50,8 +52,33 @@ const app = new Vue({
                 colorWarning: this.mess.endsWith(' '),
             }
         },
+        downloadStructure() {
+            const downloads = {}
+            Object.keys(this.backupStructure).forEach(item => {
+                if (item.startsWith('cmd-admin--backup-')) {
+                    downloads[item] = item.substr(18)
+                }
+            })
+            
+            return downloads
+        },
+        uploadStructure() {
+            const uploads = {}
+            Object.keys(this.backupStructure).forEach(item => {
+                if (item.startsWith('cmd-admin--upload-')) {
+                    uploads[item] = item.substr(18)
+                }
+            })
+            
+            return uploads
+        },
     },
     watch: {
+        showBackup(show) {
+            if (show) {
+                this.refreshBackups()
+            }
+        },
         mess(mess) {
             if (mess && !mess.endsWith('...')) {
                 setTimeout(() => this.mess='', 1500)
@@ -59,6 +86,71 @@ const app = new Vue({
         },
     },
     methods: {
+        /* start backups functions */
+        backupSwitch() {
+            if (confirm('Switch cmd-admin-tmp / cmd-admin folders?')) {
+                api.switchBackup().then(() => {
+                    this.mess = 'Refresh page...'
+                    this.showBackup = false
+                    this.getStructure()
+                })
+            }
+        },
+        backupApply(file) {
+            if (confirm('Are you sure? Apply: ['+file+']')) {
+                api.applyBackup(file).then(() => {
+                    this.mess = 'Refresh page...'
+                    this.showBackup = false
+                    this.getStructure()
+                })
+            }
+        },
+        backupDel(file) {
+            if (confirm('Are you sure? Delete: ['+file+']')) {
+                api.delBackup(file).then(() => {
+                    delete this.backupStructure[file]
+                    const $tmp = this.backupStructure
+                    this.backupStructure = {}
+                    this.$nextTick(() => {
+                        this.backupStructure = $tmp
+                    })
+                })
+            }
+        },
+        uploadFile(e) {
+            if (e.target.lastChild) {
+                e.target.lastChild.click()
+            }
+        },
+        uploadFileChange(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('file', file, file.name);
+                api.uploadBackup(formData).then(res => {
+                    e.target.value = ''
+                }).catch(err => {
+                    e.target.value = ''
+                    console.error('Err:', err)
+                })
+            }
+        },
+        backupsRefresh() {
+            api.refreshBackups().then(data => {
+                this.backupStructure = data
+            })
+        },
+        backupCreate() {
+            api.createBackup().then(data => {
+                this.backupStructure[data] = true
+                const $tmp = this.backupStructure
+                this.backupStructure = {}
+                this.$nextTick(() => {
+                    this.backupStructure = $tmp
+                })
+            })
+        },
+        /* end backups functions */
         file2pretty() {
             if (this.fileContent && this.fileContent.trim()) {
                 let json = '';

@@ -1,6 +1,9 @@
 <?
 
 define('CMD_ADMIN_DIR', __DIR__.'/cmd-admin/');
+define('CMD_ADMIN_DIR_TMP_NAME', __DIR__.'/cmd-admin-tmp/');
+define('CMD_ADMIN_DIR_TMP', __DIR__.'/cmd_admin/');
+define('BACKUP_ADMIN_DIR', __DIR__.'/backups/');
 
 class APP {
     
@@ -99,7 +102,7 @@ class APP {
 
     }
 
-    static private function listFolders($dir) {
+    static public function listFolders($dir) {
 
         $dh = scandir($dir);
         $return = [];
@@ -148,9 +151,9 @@ class APP {
     } 
     
     static public function auth($cnf) {
-        $token = $_SERVER['REQUEST_METHOD'] === 'GET'
-            ? (isset($_GET['token'])? $_GET['token']: null)
-            : self::getPost('token');
+        $token = isset($_GET['token'])
+            ? $_GET['token']
+            : ($_SERVER['REQUEST_METHOD'] === 'POST'? self::getPost('token'): null);
         if ((string) $cnf->passHash === $token) {
             return true;
         } else {

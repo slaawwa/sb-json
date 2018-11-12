@@ -12,7 +12,8 @@
     
     $url = $_SERVER[isset($_SERVER['REDIRECT_URL'])
       ? 'REDIRECT_URL'
-      : 'REQUEST_URI'];
+      : 'REQUEST_URI'
+    ];
 
     if (strpos($url, '?')) {
       $url = explode('?', $url)[0];
