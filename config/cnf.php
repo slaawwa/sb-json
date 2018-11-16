@@ -14,6 +14,8 @@ $_cnf = (object) [
     ],
     'isDev' => $isDev,
     'isProd' => $isProd,
+    'defaultApiMethod' => 'POST',
+    'defaultApiAuth' => true,
 ];
 
 if (class_exists(app)) {

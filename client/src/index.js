@@ -76,7 +76,7 @@ const app = new Vue({
     watch: {
         showBackup(show) {
             if (show) {
-                this.refreshBackups()
+                this.backupsRefresh()
             }
         },
         mess(mess) {
@@ -338,6 +338,7 @@ const app = new Vue({
             api.structure().then(structure => {
                 this.structure = structure
                 this.$nextTick(() => this.checkUrl())
+                this.mess = ''
             })
         },
         checkUrl() {

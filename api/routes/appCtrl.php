@@ -2,11 +2,15 @@
 
 $errorFile = __DIR__.'/../cmd-admin/error.json';
 
-return [
-    'path' => '/api/?cmd=admin-',
+$options = [
     'withGET' => true,
     'method' => '*',
-    'handler' => function($body, $cnf) use ($errorFile) {
+    'auth' => false,
+];
+
+return [
+    '/api/?cmd=admin-',
+    function($body, $cnf) use ($errorFile) {
         $file = App::scanDir(substr( $_GET['cmd'], 6 ));
         $ext = pathinfo($file)['extension'];
         if ($ext === 'php') {
@@ -17,5 +21,6 @@ return [
         $data = file_get_contents($file_exist? $file: $errorFile);
         // $data = json_decode($data, true);
         return $data;
-    }
+    },
+    $options,
 ];

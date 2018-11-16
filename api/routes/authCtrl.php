@@ -3,7 +3,7 @@
 return [
     [
         'path' => '/api/auth',
-        'method' => 'POST',
+        'auth' => false,
         'handler' => function($body, $cnf) {
             $passHash = app::checkPass($body->login);
             return [
@@ -13,7 +13,7 @@ return [
         },
     ], [
         'path' => '/api/token',
-        'method' => '*',
+        'auth' => false,
         'handler' => function($body=null, $cnf) {
     
             $success = $body && isset($body->token) && (int) $body->token === $cnf->passHash;

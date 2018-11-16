@@ -8,7 +8,7 @@
 
   // PREPERE
 
-    $method = $_SERVER['REQUEST_METHOD'];
+    $method = strtoupper($_SERVER['REQUEST_METHOD']);
     
     $url = $_SERVER[isset($_SERVER['REDIRECT_URL'])
       ? 'REDIRECT_URL'
@@ -28,17 +28,27 @@
   $route = null;
 
   foreach ($routes as $_route) {
-    $thisMethod = $_route['method'] === '*' || $_route['method'] === $method;
-    if (!isset($_route['withGET'])) {
-      $thisUrl = $_route['path'] === $url;
-    } else {
-      $thisUrl = strpos($_SERVER['REQUEST_URI'], $_route['path']) === 0;
+    if (!isset($_route['method'])) {
+      $_route['method'] = isset($cnf->defaultApiMethod)
+        ? $cnf->defaultApiMethod
+        : 'POST';
     }
-    if ($thisMethod and $thisUrl) {
-      $thisAuth = (isset($_route['auth']) && $_route['auth'])
+    $checkMethod = $_route['method'] === '*' || strtoupper($_route['method']) === $method;
+    if (!isset($_route['withGET'])) {
+      $checkUrl = $_route['path'] === $url;
+    } else {
+      $checkUrl = strpos($_SERVER['REQUEST_URI'], $_route['path']) === 0;
+    }
+    if ($checkMethod and $checkUrl) {
+      if (!isset($_route['auth'])) {
+        $_route['auth'] = isset($cnf->defaultApiAuth)
+          ? $cnf->defaultApiAuth
+          : false;
+      }
+      $checkAuth = (isset($_route['auth']) && $_route['auth'])
         ? $user
         : true;
-      if ($thisAuth) {
+      if ($checkAuth) {
         $route = $_route;
         break;
       }
