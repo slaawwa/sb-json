@@ -329,13 +329,13 @@
             // this.editor.setTheme(`ace/theme/${theme}`);
             // this.editor.setTheme(`ace/theme/${this._theme}`);
             // this.editor.setTheme(themes[theme]);
-    
+
             this.editor.getSession().on('change', update);
-            
-            
+
             this.editor.focus();
             this.editor.setOptions({
                 useWorker: false,
+                // maxLines: Infinity,
                 fontSize: '10pt',
                 // showLineNumber: true,
                 showGutter: true,
@@ -343,6 +343,12 @@
                 tabSize: 4,
                 useSoftTabs: !true,
             });
+
+            // AutoResize
+            const h = window.innerHeight - 100,
+                el = document.querySelector('#editorWrapper')
+            el && (el.style.minHeight = `${h}px`)
+            this.editor.resize()
         }
     }
 

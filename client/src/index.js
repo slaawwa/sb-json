@@ -256,9 +256,8 @@ const app = new Vue({
                         this.$nextTick(() => {
                             pp.pop()
                             pp.reduce((p, res) => {
-                                document
-                                    .querySelector(`[id="folderID_${p + res}"]`)
-                                    .checked = !false
+                                const el = document.querySelector(`[id="folderID_${p + res}"]`)
+                                el && (el.checked = !false)
                               return p + res + '/'
                             }, '')
                         })
@@ -281,7 +280,8 @@ const app = new Vue({
                     this.$nextTick(() => {
                         structure[name] = Object.assign({[folder]: {}}, _structure)
                         this.$nextTick(() => {
-                            document.querySelector(`[id="folderID_${fName}"]`).checked = true
+                            const el = document.querySelector(`[id="folderID_${fName}"]`)
+                            el && (el.checked = true)
                         })
                     })
                 })
@@ -350,7 +350,7 @@ const app = new Vue({
                     let parent = domEl.parentElement
                     while (parent.classList.contains('dir_wrapper')) {
                         const input = parent.previousSibling.previousSibling
-                        input.checked = true
+                        input && (input.checked = true)
                         parent = parent.parentElement
                     }
                 }
@@ -358,6 +358,7 @@ const app = new Vue({
         },
     },
     mounted() {
+        // Auto Auth
         if (localStorage.token) {
             api.checkToken(localStorage.token)
                 .then((/*{auth}*/) => {
@@ -373,6 +374,8 @@ const app = new Vue({
         } else {
             this.page = 'login'
         }
+
+        // Ctrl + S
         window.addEventListener('keydown', (e) => {
             if(e.ctrlKey || e.metaKey) {
                 if (e.code === 'KeyS') {

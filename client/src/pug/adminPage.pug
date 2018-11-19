@@ -12,14 +12,14 @@
                     :dblclick-folder='delFolder'
                 )
         .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
-            #editorWrapper(v-if='selectFile !== false')
+            #editorWrapper(v-if='selectFile !== false', key='editorWrapper')
                 editor(
                         editor-id='editor',
                         :content='fileContent',
                         :lang='lang',
                         v-on:change-content='changeFileContent'
                     )
-            span(v-else='')
+            .jumbotron(v-else, key='jumbotron')
                 //- Select file
                 h1
                     a#Structure_for_development_api_0

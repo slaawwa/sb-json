@@ -90,7 +90,13 @@ div(:class="_class? _class: 'file_tree'")
                 type: String,
                 default: '',
             },
-        },    
+        },
+        mounted() {
+            // AutoResize
+            const h = window.innerHeight - 100,
+                el = document.querySelector('.file_tree')
+            el && (el.style.minHeight = `${h}px`)
+        },
     }
 </script>
 

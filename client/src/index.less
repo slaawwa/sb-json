@@ -10,13 +10,14 @@
   &::before {
     text-align: center;
     display: block;
-    content: "Initialization...";
+    color: white;
+    content: 'Initialization...';
   }
 }
 body {
   padding-top: 40px;
   padding-bottom: 40px;
-  background-color: #eee;
+  background-color: #262626;
 }
 #backupModal .modal-dialog {
   margin-top: 50px;
@@ -63,6 +64,7 @@ body {
 }
 #app {
   #pageLoading {
+    color: white;
     text-align: center;
   }
   #alertMess {
@@ -80,6 +82,13 @@ body {
         color: #ffca6c;
       }
     }
+  }
+  .sidebar {
+    background-color: #373837;
+    min-height: 550px;
+  }
+  .jumbotron {
+    margin-bottom: 0;
   }
   .bounce-enter-active {
     animation: bounce-in .5s;
@@ -112,7 +121,7 @@ body {
 #editorWrapper {
     min-height: 550px;
     height: 100%;
-    width: calc(100% - 220px);
+    // width: calc(100% - 220px);
     white-space: nowrap;
     overflow: hidden;
     /*margin-left: 200px;*/
@@ -136,7 +145,7 @@ body {
       max-width: 200px;
       overflow-x: hidden;
       float: left;
-      background: #34434d;
+      // background: #34434d;
       width: 200px;
       -webkit-user-select: none;
       -moz-user-select: none;

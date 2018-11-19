@@ -50,3 +50,4 @@
 	+ PHP route refactor
 	- Render README.md as main page
 	- Bootstrap v4 or vuetify
+	+ Add 'fullscreen' style
