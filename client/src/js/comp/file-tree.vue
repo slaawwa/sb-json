@@ -95,7 +95,7 @@ div(:class="_class? _class: 'file_tree'")
             // AutoResize
             const h = window.innerHeight - 100,
                 el = document.querySelector('.file_tree')
-            el && (el.style.minHeight = `${h}px`)
+            el && (el.style.minHeight = el.style.maxHeight = `${h}px`)
         },
     }
 </script>

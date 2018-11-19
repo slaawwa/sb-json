@@ -47,7 +47,16 @@ gulp.task('dep:git', function() {
 gulp.task('deploy', function() {
        
     if (!argv.del) {
-        return gulp.src( [`${CNF.basePath}/**/*`, '!node_modules{,/**}', '!bower{,/**}', '!bower_components{,/**}', '**/.htaccess'], { base: CNF.basePath, buffer: false } )
+        return gulp.src( [
+            `${CNF.basePath}/**/*`,
+            '!node_modules{,/**}',
+            '!bower{,/**}',
+            '!bower_components{,/**}',
+            '!cmd-admin{,/**}',
+            '!cmd-admin-tmp{,/**}',
+            '!backups{,/**}',
+            '**/.htaccess',
+        ], { base: CNF.basePath, buffer: false } )
             .pipe( conn.newer( CNF.remotePath || argv.remotePath ) ) // only upload newer files 
             .pipe( conn.dest( CNF.remotePath || argv.remotePath ) );
     } else {
