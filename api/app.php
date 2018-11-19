@@ -145,9 +145,10 @@ class APP {
     }
     
     static public function response($data=['success'=>false, 'mess'=>'404 Not found', 'data'=>null]) {
-        
-      header('Content-Type: application/json');
-      return gettype($data) === 'string'? $data: json_encode($data, JSON_FORCE_OBJECT);
+        if(!headers_sent()) {
+            header('Content-Type: application/json');
+        }
+        return gettype($data) === 'string'? $data: json_encode($data, JSON_FORCE_OBJECT);
     } 
     
     static public function auth($cnf) {

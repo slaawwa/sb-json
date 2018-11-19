@@ -3,11 +3,11 @@
     function($body) {
 
         if ($body->file === 'README.md') {
-            $body->file = '../../../README.md';
+            $body->file = '../../README.md';
         }
         
         $data = [
-            'file' => App::getFile($body->file),
+            'file' => app::getFile($body->file),
         ];
         
         $success = $data['file'] === false? false: true;

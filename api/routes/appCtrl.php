@@ -1,6 +1,6 @@
 <?
 
-$errorFile = __DIR__.'/../cmd-admin/error.json';
+$errorFile = CMD_ADMIN_DIR.'error.json';
 
 $options = [
     'withGET' => true,
@@ -11,7 +11,7 @@ $options = [
 return [
     '/api/?cmd=admin-',
     function($body, $cnf) use ($errorFile) {
-        $file = App::scanDir(substr( $_GET['cmd'], 6 ));
+        $file = app::scanDir(substr( $_GET['cmd'], 6 ));
         $ext = pathinfo($file)['extension'];
         if ($ext === 'php') {
             $f = require($file);

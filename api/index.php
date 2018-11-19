@@ -19,27 +19,30 @@
       $url = explode('?', $url)[0];
     }
 
-    $postData = App::getPost();
+    $postData = app::getPost();
 
-    $user = App::auth($cnf);
+    $user = app::auth($cnf);
 
   // PREPERE
 
   $route = null;
 
   foreach ($routes as $_route) {
+
     if (!isset($_route['method'])) {
       $_route['method'] = isset($cnf->defaultApiMethod)
         ? $cnf->defaultApiMethod
         : 'POST';
     }
+
     $checkMethod = $_route['method'] === '*' || strtoupper($_route['method']) === $method;
     if (!isset($_route['withGET'])) {
       $checkUrl = $_route['path'] === $url;
     } else {
-      $checkUrl = strpos($_SERVER['REQUEST_URI'], $_route['path']) === 0;
+      $checkUrl = strpos($url, $_route['path']) === 0;
     }
-    if ($checkMethod and $checkUrl) {
+
+    if ($checkMethod && $checkUrl) {
       if (!isset($_route['auth'])) {
         $_route['auth'] = isset($cnf->defaultApiAuth)
           ? $cnf->defaultApiAuth
@@ -54,6 +57,7 @@
       }
     }
   }
+
   if ($route) {
     $data = $route['handler']($postData, $cnf);
   } else {
@@ -64,4 +68,4 @@
     ];
   }
 
-  echo App::response($data);
+  echo app::response($data);

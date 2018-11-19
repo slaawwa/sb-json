@@ -7,7 +7,7 @@ foreach(glob(__DIR__ . '/{**/*,*}Ctrl.php', GLOB_BRACE) as $php) {
     if (isset($_routes[0]) && gettype($_routes[0]) === 'string') {
         $_routes = [$_routes];
     }
-    foreach($_routes as $key => &$route) {
+    foreach($_routes as $key => $route) {
         if (isset($route[0]) && gettype($route[0]) === 'string') {
             // Check extra options
             $last = count($route) - 1;

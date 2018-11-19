@@ -5,9 +5,9 @@
         $mess = '';
         $data = null;
         
-        $success = App::createFolder($body->folder);
+        $success = app::createFolder($body->folder);
         
-        App::log('Create folder: `'.$body->folder.'`');
+        app::log('Create folder: `'.$body->folder.'`');
 
         return ['success' => $success, 'mess' => $mess, 'data' => $data];
     }

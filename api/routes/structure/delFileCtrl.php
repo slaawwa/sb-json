@@ -5,9 +5,9 @@
         $mess = '';
         $data = null;
 
-        $success = App::delFile($body->file);
+        $success = app::delFile($body->file);
 
-        App::log('Del file: `'.$body->file.'`');
+        app::log('Del file: `'.$body->file.'`');
 
         return ['success' => $success, 'mess' => $mess, 'data' => $data];
     },

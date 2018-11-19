@@ -46,6 +46,7 @@
 	- Search in file-tree
 	- Better auth (login/users) + noti
 	- Global refactor to vue structure
-	- Download/upload cmd-admin from zip
+	+ Download/upload cmd-admin from zip
+	+ PHP route refactor
 	- Render README.md as main page
 	- Bootstrap v4 or vuetify
