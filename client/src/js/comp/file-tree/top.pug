@@ -1,0 +1,40 @@
+
+template(v-if='isFirst')
+    .input-group.input-group-sm.m-t-5.searchFilter(
+            :class='{showSearch: search || isFocused}'
+        )
+        input.form-control(
+                v-model.trim='search'
+                ref='searchFilter'
+                type='search'
+                @blur='isFocused = false'
+                @focus='isFocused = true'
+                placeholder='File name filter...'
+            )
+        span.input-group-btn
+            button.btn.btn-default(
+                    @blur='isFocused = false'
+                    @focus='isFocused = true'
+                    type='button'
+                    @click="search = ''; $refs.searchFilter.focus()"
+                )
+                span.glyphicon.glyphicon-remove
+    input#fileID_newFolder(
+        type='checkbox'
+        name='hosted_files'
+    )
+    label(
+            for='fileID_newFolder'
+            @click='clickNew()'
+            @contextmenu.prevent.stop='contextClick(startDir, structure)'
+        ) NEW FOLDER
+    input(
+            type='radio'
+            name='hosted_files'
+            id='fileID_README.md'
+        )
+    label(
+            for='fileID_README.md'
+            @click="click('README.md', null, 'README.md')"
+        ) README.md
+    hr

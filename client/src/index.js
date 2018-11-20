@@ -202,7 +202,6 @@ const app = new Vue({
                         location.hash = `${fName}/${file}`;
                         this.$nextTick(() => {
                             structure[name] = _structure
-                            this.$nextTick(() => this.checkUrl())
                         })
                     })
                     .catch(e => {
@@ -337,24 +336,8 @@ const app = new Vue({
         getStructure() {
             api.structure().then(structure => {
                 this.structure = structure
-                this.$nextTick(() => this.checkUrl())
                 this.mess = ''
             })
-        },
-        checkUrl() {
-            if (location.hash) {
-                const id = location.hash.replace('#', 'fileID_')
-                const domEl = document.querySelector(`[for="${id}"]`)
-                if (domEl && domEl.click) {
-                    domEl.click()
-                    let parent = domEl.parentElement
-                    while (parent.classList.contains('dir_wrapper')) {
-                        const input = parent.previousSibling.previousSibling
-                        input && (input.checked = true)
-                        parent = parent.parentElement
-                    }
-                }
-            }
         },
     },
     mounted() {

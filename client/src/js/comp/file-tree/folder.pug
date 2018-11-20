@@ -1,0 +1,26 @@
+
+template(v-if='item && item !== true')
+    input(
+            type='checkbox'
+            :id="'folderID_'+startDir+name"
+            @change='onChangeChecked($event, name)'
+            :ref="'folder_' + name"
+            :checked='isOpen(name)'
+        )
+    label(
+            :for="'folderID_'+startDir+name"
+            @dblclick='dblclickFolder(startDir + name, _parentStructure, _parentName, name)'
+            @contextmenu.prevent.stop='contextClick(startDir + name, structure, name, item)'
+        ) {{name}}
+    file-tree(
+            _class='dir_wrapper'
+            :search='search'
+            :structure='item'
+            :_parentStructure='structure'
+            :_parentName='name'
+            :checked='checked'
+            :start-dir="startDir + name + '/'"
+            :dblclick-folder='dblclickFolder'
+            :click='click'
+            :contextClick='contextClick'
+        )

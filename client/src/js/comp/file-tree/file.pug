@@ -1,0 +1,13 @@
+
+template(v-else-if="item === false && isSearched(name)")
+    input(
+            type='radio'
+            name='hosted_files'
+            :id="'fileID_'+startDir+name"
+            :value='name'
+            :checked='isOpen(name)'
+        )
+    label(
+            :for="'fileID_'+startDir+name"
+            @click='click(startDir + name, structure, name)'
+        ) {{name}}

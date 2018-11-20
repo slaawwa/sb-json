@@ -1,79 +1,21 @@
 
 <template lang="pug">
-div(:class="_class? _class: 'file_tree'")
-    template(v-if='isFirst')
-        .input-group.input-group-sm.m-t-5
-            input.form-control.searchFilter(
-                    v-model='search'
-                    type='search'
-                    placeholder='Search file'
-                )
-            span.input-group-btn
-                button.btn.btn-default(
-                        type='button'
-                        @click="search = ''"
-                    )
-                    span.glyphicon.glyphicon-remove
-        input#fileID_newFolder(
-            type='checkbox'
-            name='hosted_files'
-        )
-        label(
-                for='fileID_newFolder'
-                @click='clickNew()'
-                @contextmenu.prevent.stop='contextClick(startDir, structure)'
-            ) NEW FOLDER
-        input(
-                type='radio'
-                name='hosted_files'
-                id='fileID_README.md'
-            )
-        label(
-                for='fileID_README.md'
-                @click="click('README.md', null, 'README.md')"
-            ) README.md
-        hr
+div(:class='_class')
+    include file-tree/top
     template(v-for='(item, name) in structure')
-        template(v-if='item && item !== true')
-            input(
-                    type='checkbox'
-                    :id="'folderID_'+startDir+name"
-                    :checked='search? true: checked'
-                )
-            label(
-                    :for="'folderID_'+startDir+name"
-                    @dblclick='dblclickFolder(startDir + name, _parentStructure, _parentName, name)'
-                    @contextmenu.prevent.stop='contextClick(startDir + name, structure, name, item)'
-                ) {{name}}
-            file-tree(
-                    :search='search'
-                    :structure='item'
-                    :_parentStructure='structure'
-                    :_parentName='name'
-                    _class='dir_wrapper'
-                    :checked='checked'
-                    :start-dir="startDir + name + '/'"
-                    :dblclick-folder='dblclickFolder'
-                    :click='click'
-                    :contextClick='contextClick'
-                )
-        template(v-else-if="item === false && (search === '' || (startDir + name).includes(search))")
-            input(
-                    type='radio'
-                    name='hosted_files'
-                    :id="'fileID_'+startDir+name"
-                    :value='name'
-                )
-            label(
-                    :for="'fileID_'+startDir+name"
-                    @click='click(startDir + name, structure, name)'
-                ) {{name}}
-
+        include file-tree/folder
+        include file-tree/file
 </template>
 
 <script>
     export default {
         name: 'file-tree',
+        data() {
+            return {
+                isFocused: false,
+                checkeds: {},
+            }
+        },
         props: {
             isFirst: {
                 type: Boolean,
@@ -94,7 +36,10 @@ div(:class="_class? _class: 'file_tree'")
             contextClick: Function,
             clickNew: Function,
             dblclickFolder: Function,
-            _class: String,
+            _class: {
+                type: String,
+                default: 'file_tree',
+            },
             _parentStructure: {
                 type: Object,
                 default: null,
@@ -108,12 +53,49 @@ div(:class="_class? _class: 'file_tree'")
                 default: '',
             },
         },
+        watch: {
+            search() {
+            },
+        },
+        methods: {
+            isOpen(name) {
+                return this.search? true: (this.checked || (() => {
+                    const key = `folder_${this.startDir}${name}`,
+                        isSet = key in this.checkeds,
+                        hash = window.location.hash,
+                        _checked = isSet
+                            ? this.checkeds[key]
+                            : hash.startsWith(`#${this.startDir}${name}`)
+                    return _checked
+                })())
+            },
+            onChangeChecked($event, name) {
+                const key = `folder_${this.startDir}${name}`
+                this.checkeds[key] = $event.target.checked
+            },
+            isSearched(name) {
+                const search = this.search.toLowerCase(),
+                    fullPath = (this.startDir + name).toLowerCase()
+                return search === '' || fullPath.includes(search)
+            },
+            resize() {
+                if (this.isFirst) {
+                    const h = window.innerHeight - 100,
+                        el = document.querySelector('.file_tree')
+                    el && (el.style.minHeight = el.style.maxHeight = `${h}px`)
+                }
+            },
+        },
         mounted() {
             // AutoResize
-            if (this.isFirst) {
-                const h = window.innerHeight - 100,
-                    el = document.querySelector('.file_tree')
-                el && (el.style.minHeight = el.style.maxHeight = `${h}px`)
+            window.onresize = () => this.resize()
+            this.resize()
+
+            // AutoOpen file
+            const hash = window.location.hash.replace(/^#/, ''),
+                el = document.querySelector('[for="fileID_' + hash + '"]');
+            if (el) {
+                el.click()
             }
         },
     }
@@ -125,6 +107,11 @@ div(:class="_class? _class: 'file_tree'")
         overflow-y: auto;
         hr {
             margin: 0;
+        }
+        .searchFilter {
+            &:not(.showSearch):not(:hover) {
+                opacity: 0.3;
+            }
         }
     }
 </style>
