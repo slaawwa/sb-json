@@ -1,20 +1,23 @@
 <?
 
+$options = [
+    'auth' => false,
+];
+
 return [
     [
-        'path' => '/api/auth',
-        'auth' => false,
-        'handler' => function($body, $cnf) {
+        '/api/auth',
+        function($body, $cnf) {
             $passHash = app::checkPass($body->login);
             return [
                 'success' => (boolean) $passHash,
                 'data' => $passHash? ['token' => $passHash]: null,
             ];
         },
+        $options,
     ], [
-        'path' => '/api/token',
-        'auth' => false,
-        'handler' => function($body=null, $cnf) {
+        '/api/token',
+        function($body=null, $cnf) {
     
             $success = $body && isset($body->token) && (int) $body->token === $cnf->passHash;
             $data = [
@@ -28,5 +31,6 @@ return [
             ];
     
         },
+        $options,
     ]
 ];

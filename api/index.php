@@ -10,10 +10,7 @@
 
     $method = strtoupper($_SERVER['REQUEST_METHOD']);
     
-    $url = $_SERVER[isset($_SERVER['REDIRECT_URL'])
-      ? 'REDIRECT_URL'
-      : 'REQUEST_URI'
-    ];
+    $url = $_SERVER['REQUEST_URI'];
 
     if (strpos($url, '?')) {
       $url = explode('?', $url)[0];
@@ -39,7 +36,7 @@
     if (!isset($_route['withGET'])) {
       $checkUrl = $_route['path'] === $url;
     } else {
-      $checkUrl = strpos($url, $_route['path']) === 0;
+      $checkUrl = strpos($_SERVER['REQUEST_URI'], $_route['path']) === 0;
     }
 
     if ($checkMethod && $checkUrl) {

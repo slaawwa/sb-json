@@ -42,10 +42,10 @@
 	+ Add btn 'Format' for transform json file to read format
 	+ Auto commit history/notification etc. (maybe)
 	+ Limit max height file-tree
-	- Vue routing
-	- Search in file-tree
+	+ Search in file-tree
 	- Better auth (login/users) + noti
 	- Global refactor to vue structure
+	- Vue routing
 	+ Download/upload cmd-admin from zip
 	+ PHP route refactor
 	- Render README.md as main page

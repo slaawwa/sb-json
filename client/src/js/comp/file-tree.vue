@@ -2,6 +2,18 @@
 <template lang="pug">
 div(:class="_class? _class: 'file_tree'")
     template(v-if='isFirst')
+        .input-group.input-group-sm.m-t-5
+            input.form-control.searchFilter(
+                    v-model='search'
+                    type='search'
+                    placeholder='Search file'
+                )
+            span.input-group-btn
+                button.btn.btn-default(
+                        type='button'
+                        @click="search = ''"
+                    )
+                    span.glyphicon.glyphicon-remove
         input#fileID_newFolder(
             type='checkbox'
             name='hosted_files'
@@ -26,7 +38,7 @@ div(:class="_class? _class: 'file_tree'")
             input(
                     type='checkbox'
                     :id="'folderID_'+startDir+name"
-                    :checked='checked'
+                    :checked='search? true: checked'
                 )
             label(
                     :for="'folderID_'+startDir+name"
@@ -34,17 +46,18 @@ div(:class="_class? _class: 'file_tree'")
                     @contextmenu.prevent.stop='contextClick(startDir + name, structure, name, item)'
                 ) {{name}}
             file-tree(
+                    :search='search'
                     :structure='item'
                     :_parentStructure='structure'
                     :_parentName='name'
                     _class='dir_wrapper'
-                    :checked='false'
+                    :checked='checked'
                     :start-dir="startDir + name + '/'"
                     :dblclick-folder='dblclickFolder'
                     :click='click'
                     :contextClick='contextClick'
                 )
-        template(v-else-if='item === false')
+        template(v-else-if="item === false && (search === '' || (startDir + name).includes(search))")
             input(
                     type='radio'
                     name='hosted_files'
@@ -90,12 +103,18 @@ div(:class="_class? _class: 'file_tree'")
                 type: String,
                 default: '',
             },
+            search: {
+                type: String,
+                default: '',
+            },
         },
         mounted() {
             // AutoResize
-            const h = window.innerHeight - 100,
-                el = document.querySelector('.file_tree')
-            el && (el.style.minHeight = el.style.maxHeight = `${h}px`)
+            if (this.isFirst) {
+                const h = window.innerHeight - 100,
+                    el = document.querySelector('.file_tree')
+                el && (el.style.minHeight = el.style.maxHeight = `${h}px`)
+            }
         },
     }
 </script>
