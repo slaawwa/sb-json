@@ -19,6 +19,7 @@
     $postData = app::getPost();
 
     $user = app::auth($cnf);
+    app::set('authUser', $user);
 
   // PREPERE
 

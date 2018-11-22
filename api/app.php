@@ -185,11 +185,15 @@ class APP {
     }
     
     static public function log($mess='') {
-        
+
         $logUrl = self::get('config')->logUrl;
 
         if ($logUrl) {
-        
+
+            $user = self::get('authUser');
+
+            $mess = ($user? '`'.$user['name']. '` => ': ''). $mess;
+
             $extra = htmlentities(urlencode($mess));
             
             file_get_contents($logUrl.$extra);

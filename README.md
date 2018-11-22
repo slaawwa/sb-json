@@ -43,6 +43,8 @@
 	+ Auto commit history/notification etc. (maybe)
 	+ Limit max height file-tree
 	+ Search in file-tree
+	- Hide folder if search and folder is empty
+	+ Add user name to log
 	+ Better auth (login/users) + noti
 	+ Global refactor to vue structure
 	- Vue routing
