@@ -109,8 +109,11 @@ div(:class='_class')
             margin: 0;
         }
         .searchFilter {
-            &:not(.showSearch):not(:hover) {
-                opacity: 0.3;
+            &:not(.showSearch) {
+                opacity: .3;
+                &:hover {
+                    opacity: .7;
+                }
             }
         }
     }

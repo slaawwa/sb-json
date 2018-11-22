@@ -1,11 +1,14 @@
 
 template(v-if='isFirst')
+
+    //- Search/filter
+
     .input-group.input-group-sm.m-t-5.searchFilter(
             :class='{showSearch: search || isFocused}'
         )
         input.form-control(
                 v-model.trim='search'
-                ref='searchFilter'
+                ref='searchFilterInput'
                 type='search'
                 @blur='isFocused = false'
                 @focus='isFocused = true'
@@ -16,9 +19,12 @@ template(v-if='isFirst')
                     @blur='isFocused = false'
                     @focus='isFocused = true'
                     type='button'
-                    @click="search = ''; $refs.searchFilter.focus()"
+                    @click="search = ''; $refs.searchFilterInput.focus()"
                 )
                 span.glyphicon.glyphicon-remove
+
+    //- New folder
+
     input#fileID_newFolder(
         type='checkbox'
         name='hosted_files'
@@ -28,6 +34,9 @@ template(v-if='isFirst')
             @click='clickNew()'
             @contextmenu.prevent.stop='contextClick(startDir, structure)'
         ) NEW FOLDER
+
+    //- README.md
+
     input(
             type='radio'
             name='hosted_files'
@@ -37,4 +46,18 @@ template(v-if='isFirst')
             for='fileID_README.md'
             @click="click('README.md', null, 'README.md')"
         ) README.md
+
+    //- users.json
+
+    input(
+            type='radio'
+            name='hosted_files'
+            id='fileID_README.md'
+        )
+    label(
+            v-if='$root.isAdmin'
+            for='fileID_USERS.json'
+            @click="click('USERS.json', null, 'USERS.json')"
+        ) USERS
+
     hr

@@ -11,6 +11,7 @@ form.form-signin(
         | Email address
     input#inputEmail.form-control(
             type='email'
+            v-model='login'
             placeholder='Email address'
             required=''
             autofocus=''
@@ -20,9 +21,9 @@ form.form-signin(
         | Password
     input#inputPassword.form-control(
             type='password'
+            v-model='pass'
             placeholder='Password'
             required=''
-            v-model='login'
         )
 
     button.btn.btn-lg.btn-primary.btn-block(type='submit')
