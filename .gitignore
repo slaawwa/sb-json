@@ -8,4 +8,5 @@ api/cmd-admin-tmp/
 client/dist/
 
 config/cnf.js
+config/users.json
 config/cnf_.php

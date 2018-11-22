@@ -43,8 +43,8 @@
 	+ Auto commit history/notification etc. (maybe)
 	+ Limit max height file-tree
 	+ Search in file-tree
-	- Better auth (login/users) + noti
-	- Global refactor to vue structure
+	+ Better auth (login/users) + noti
+	+ Global refactor to vue structure
 	- Vue routing
 	+ Download/upload cmd-admin from zip
 	+ PHP route refactor

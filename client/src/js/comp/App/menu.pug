@@ -34,21 +34,21 @@ nav.navbar.navbar-inverse.navbar-fixed-top
                     ) 
                         i.glyphicon.glyphicon-floppy-disk
                         |  Save
-    
+
                 button.btn.navbar-btn.btn-info(
                         @click='selectFileOpen'
                         title='Open in new tab'
                     )
                         i.glyphicon.glyphicon-new-window
                         |  Open
-    
+
                 button.btn.navbar-btn.btn-danger(
                         @click='selectFileDelete'
                         title='Delete'
                         :disabled='cantDelete'
                     )
                         i.glyphicon.glyphicon-trash
-    
+
                 button.btn.navbar-btn.btn-warning(
                         @click='fileClose'
                         title='Close'

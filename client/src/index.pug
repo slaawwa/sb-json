@@ -4,17 +4,4 @@ html
         meta(charset='utf-8')
         title SB JSON • DEV
     body
-        #app(v-cloak)
-            .container(v-if="page === 'login'", key='page')
-            
-                include pug/loginPage
-
-            div(v-if="page === 'admin'", key='page')
-                
-                include pug/menu
-
-                include pug/adminPage
-                include pug/backups
-
-            p#pageLoading(v-if='!page', key='page')
-                | Loading...
+        #app(v-cloak, data-loading='Loading...')

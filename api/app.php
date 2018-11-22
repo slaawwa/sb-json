@@ -7,6 +7,12 @@ define('BACKUP_ADMIN_DIR', __DIR__.'/backups/');
 
 class APP {
     
+    static public $USER_STATUS = [
+        'ADMIN' => 9,
+        'ACTIVE' => 1,
+        'BAN' => 0,
+    ];
+
     static private $_phpInput;
     
     static private $_structure;
@@ -21,11 +27,24 @@ class APP {
     static public function get($propName) {
         return self::$_props[$propName];
     }
-    
+
     static public function checkPass($pass) {
         $passHash = self::passHash($pass);
         $success = self::get('config')->passHash === $passHash;
         return $success? $passHash: null;
+    }
+
+    static public function createHash($user) {
+        $login = strtolower($user->login);
+        return self::passHash($login . $user->pass);
+    }
+
+    static public function userCan($user, $_status='ADMIN') {
+        $status = isset(self::$USER_STATUS[$_status])
+            ? self::$USER_STATUS[$_status]
+            : false;
+        $userStatus = $user && isset($user['status']) && $user['status'];
+        return $status && $userStatus && $userStatus >= $status;
     }
 
     static public function passHash($pass) {
@@ -143,20 +162,23 @@ class APP {
             ? $input->$name
             : $input;
     }
-    
+
     static public function response($data=['success'=>false, 'mess'=>'404 Not found', 'data'=>null]) {
         if(!headers_sent()) {
             header('Content-Type: application/json');
         }
         return gettype($data) === 'string'? $data: json_encode($data, JSON_FORCE_OBJECT);
     } 
-    
+
     static public function auth($cnf) {
         $token = isset($_GET['token'])
             ? $_GET['token']
             : ($_SERVER['REQUEST_METHOD'] === 'POST'? self::getPost('token'): null);
-        if ((string) $cnf->passHash === $token) {
-            return true;
+
+        $key = array_search($token, array_column($cnf->users, 'hash'));
+
+        if ($key !== false) {
+            return $cnf->users[$key];
         } else {
             return false;
         }

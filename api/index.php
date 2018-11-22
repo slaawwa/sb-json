@@ -56,7 +56,7 @@
   }
 
   if ($route) {
-    $data = $route['handler']($postData, $cnf);
+    $data = $route['handler']($postData, $cnf, $user);
   } else {
     $data = [
       'success' => false,

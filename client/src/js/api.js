@@ -1,19 +1,27 @@
 
-const api = ((cnf=[]) => {
+import Vue from 'vue'
+export {app} from './index'
 
-    const genApi = (c) => {
+Vue.prototype.$api = ((cnf=[]) => {
+
+    const {
+        localStorage,
+        fetch,
+    } = window
+
+    const genApi = c => {
         return function(data={}) {
             if (c.params) {
                 data = {}
                 let counter = 0
                 for (let i of c.params) {
-                    data[i] = arguments[counter];
-                    counter++;
+                    data[i] = arguments[counter]
+                    counter++
                 }
             }
             
             if (localStorage.token && !c.noToken) {
-                data.token = localStorage.token;
+                data.token = localStorage.token
             }
             
             const headers = Object.assign({
@@ -26,7 +34,7 @@ const api = ((cnf=[]) => {
                 delete headers['Content-Type']
             }
             
-            return fetch(typeof c.url === 'function'? c.url(): c.url, {
+            return window.fetch(typeof c.url === 'function'? c.url(): c.url, {
                 method: c.method || 'POST',
                 headers,
                 // credentials: 'same-origin',
@@ -37,23 +45,25 @@ const api = ((cnf=[]) => {
                     if (r.success) {
                         return r.data
                     }
-                    console.error(`throw Error! ${r.mess}`);
-                    return Promise.reject(r.mess);
+                    console.error(`throw Error! ${r.mess}`)
+                    return Promise.reject(r)
                 })
                 .catch(err => {
-                    ((app && app.noti) || console.error)(err && err.toString && err.toString());
-                    throw new Error(`API: Error`);
-                });
+                    const mess = err.mess? err.mess: err
+                    ((app && app.noti) || console.error)(mess.toString? mess.toString(): mess)
+                    /* throw new Error(`API: Error`, mess)*/
+                    return Promise.reject(err)
+                })
         }
     }
 
     return cnf.reduce((res, c) => {
-        res[c.name] = genApi(c);
-        return res;
-    }, {});
+        res[c.name] = genApi(c)
+        return res
+    }, {})
 })([{
     name: 'auth',
-    params: ['login'],
+    // params: ['login', 'pass'],
     url: '/api/auth'
 }, {
     name: 'checkToken',
@@ -89,7 +99,7 @@ const api = ((cnf=[]) => {
     name: 'uploadBackup',
     defContentType: true,
     noJSON: true,
-    url: () => '/api/backup/upload?token=' + localStorage.token,
+    url: () => '/api/backup/upload?token=' + window.localStorage.token,
 }, {
     name: 'createBackup',
     url: '/api/backup/create'
@@ -109,4 +119,4 @@ const api = ((cnf=[]) => {
     url: '/api/backup/switch'
 }])
 
-export default api
+export default Vue.prototype.$api

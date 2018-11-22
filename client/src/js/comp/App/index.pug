@@ -1,0 +1,14 @@
+#app
+    .container(v-if="page === 'login'", key='page')
+
+        include loginPage
+
+    div(v-if="page === 'admin'", key='page-content')
+
+        include menu
+
+        include adminPage
+        include backups
+
+    div#pageLoading(v-if='!page', key='page-loader')
+        | Initialization...

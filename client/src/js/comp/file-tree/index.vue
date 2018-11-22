@@ -1,10 +1,10 @@
 
 <template lang="pug">
 div(:class='_class')
-    include file-tree/top
+    include top
     template(v-for='(item, name) in structure')
-        include file-tree/folder
-        include file-tree/file
+        include folder
+        include file
 </template>
 
 <script>
