@@ -2,12 +2,13 @@
 <template lang="pug">
 div(:class='_class')
     include top
-    template(v-for='(item, name) in structure')
+    template(v-for='(item, name) in _structure')
         include folder
         include file
 </template>
 
 <script>
+    let isRealFirst = true
     export default {
         name: 'file-tree',
         data() {
@@ -53,11 +54,39 @@ div(:class='_class')
                 default: '',
             },
         },
+        computed: {
+            _structure() {
+                return this.filterStructure(this.startDir, this.structure)
+            },
+        },
         watch: {
             search() {
             },
         },
         methods: {
+            filterStructure(startDir, structure) {
+                if (this.search === '') {
+                    return structure
+                } else {
+                    const _structure = {}
+                    for (const i in structure) {
+                        if (typeof(structure[i]) === 'object') {
+                            const tmp = this.filterStructure(startDir + name, structure[i])
+                            if (tmp) {
+                                _structure[i] = tmp
+                            }
+                        } else if (this.isSearched(i)) {
+                            _structure[i] = structure[i]
+                        }
+                    }
+
+                    if (Object.keys(_structure).length === 0) {
+                        return false
+                    }
+
+                    return _structure
+                }
+            },
             isOpen(name) {
                 return this.search? true: (this.checked || (() => {
                     const key = `folder_${this.startDir}${name}`,
@@ -92,10 +121,13 @@ div(:class='_class')
             this.resize()
 
             // AutoOpen file
-            const hash = window.location.hash.replace(/^#/, ''),
-                el = document.querySelector('[for="fileID_' + hash + '"]');
-            if (el) {
-                el.click()
+            if (this.isFirst) {
+                isRealFirst = false
+                const hash = window.location.hash.replace(/^#/, ''),
+                    el = document.querySelector('[for="fileID_' + hash + '"]')
+                if (el) {
+                    el.click()
+                }
             }
         },
     }
