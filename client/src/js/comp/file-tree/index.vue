@@ -51,7 +51,7 @@ div(:class='_class')
             },
             search: {
                 type: String,
-                default: '',
+                default:  localStorage.search || '',
             },
         },
         computed: {
@@ -60,7 +60,10 @@ div(:class='_class')
             },
         },
         watch: {
-            search() {
+            search(search) {
+                if (this.isFirst) {
+                    localStorage.search = search
+                }
             },
         },
         methods: {
