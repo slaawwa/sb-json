@@ -71,11 +71,11 @@ div(:class='_class')
                     const _structure = {}
                     for (const i in structure) {
                         if (typeof(structure[i]) === 'object') {
-                            const tmp = this.filterStructure(startDir + name, structure[i])
+                            const tmp = this.filterStructure(`${startDir}${i}/`, structure[i])
                             if (tmp) {
                                 _structure[i] = tmp
                             }
-                        } else if (this.isSearched(i)) {
+                        } else if (this.isSearched(startDir, i)) {
                             _structure[i] = structure[i]
                         }
                     }
@@ -102,9 +102,9 @@ div(:class='_class')
                 const key = `folder_${this.startDir}${name}`
                 this.checkeds[key] = $event.target.checked
             },
-            isSearched(name) {
+            isSearched(startDir, name) {
                 const search = this.search.toLowerCase(),
-                    fullPath = (this.startDir + name).toLowerCase()
+                    fullPath = (startDir + name).toLowerCase()
                 return search === '' || fullPath.includes(search)
             },
             resize() {
