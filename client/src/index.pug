@@ -3,5 +3,7 @@ html
     head
         meta(charset='utf-8')
         title SB JSON • DEV
+        if isDev
+            link(rel="icon" href="/favicon-dev.ico")
     body
         #app(v-cloak, data-loading='Loading...')

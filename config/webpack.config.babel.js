@@ -88,7 +88,15 @@ export default ({mode}) => {
                       },
                       // this applies to pug imports inside JavaScript
                       {
-                        use: ['raw-loader', 'pug-plain-loader']
+                        use: ['raw-loader', {
+                            loader: 'pug-plain-loader',
+                            options: {
+                                data: {
+                                    isDev,
+                                    isProd,
+                                },
+                            },
+                        }],
                       }
                 ],
             }, {
