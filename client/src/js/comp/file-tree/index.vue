@@ -124,11 +124,11 @@ div(:class='_class')
             this.resize()
 
             // AutoOpen file
-            if (this.isFirst) {
-                isRealFirst = false
+            if (isRealFirst) {
                 const hash = window.location.hash.replace(/^#/, ''),
                     el = document.querySelector('[for="fileID_' + hash + '"]')
                 if (el) {
+                    isRealFirst = false
                     el.click()
                 }
             }

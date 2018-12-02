@@ -63,12 +63,21 @@ nav.navbar.navbar-inverse.navbar-fixed-top
                                 :class="alertClass"
                             ) {{ mess }}
                 li
+                    a.btn.btn-success.navbar-btn(
+                            target="_blank"
+                            href="https://github.com/slaawwa/sb-json/issues/new"
+                            title="New issue"
+                        )
+                            i.glyphicon.glyphicon-comment
+                li
                     button.btn.btn-primary.navbar-btn(
                             type="button"
                             data-toggle="modal"
                             data-target="#myModal"
                             @click="showBackup = true"
-                        ) Backups
+                            title="Backups"
+                        )
+                            i.glyphicon.glyphicon-cloud-download
                 li
                     a(
                             href='#'
@@ -77,4 +86,4 @@ nav.navbar.navbar-inverse.navbar-fixed-top
                         )
                         i.glyphicon.glyphicon-log-out
                         | 
-                        | Exit ({{ user.name }})
+                        | {{ user.name }}

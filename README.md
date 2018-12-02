@@ -51,6 +51,8 @@
 	- Vue routing
 	+ Download/upload cmd-admin from zip
 	+ PHP route refactor
+	+ Add dev favicon
 	- Render README.md as main page
+	+ Move TODO -> github isses
 	- Bootstrap v4 or vuetify
 	+ Add 'fullscreen' style
