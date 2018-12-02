@@ -2,10 +2,12 @@
     '/api/file',
     function($body, $cnf, $user) {
 
-        if ($body->file === 'README.md') {
-            $body->file = '../../README.md';
-        } else if ($body->file === 'USERS.json' && app::userCan($user, 'ADMIN')) {
-            $body->file = '../../config/users.json';
+        if (app::userCan($user, 'ADMIN')) {
+            if ($body->file === 'README.md') {
+                $body->file = '../../README.md';
+            } else if ($body->file === 'USERS.json') {
+                $body->file = '../../config/users.json';
+            }
         }
 
         $data = [

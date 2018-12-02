@@ -35,29 +35,29 @@ template(v-if='isFirst')
             @contextmenu.prevent.stop='contextClick(startDir, structure)'
         ) NEW FOLDER
 
-    //- README.md
+    template(v-if='$root.isAdmin')
+        //- README.md
 
-    input(
-            type='radio'
-            name='hosted_files'
-            id='fileID_README.md'
-        )
-    label(
-            for='fileID_README.md'
-            @click="click('README.md', null, 'README.md')"
-        ) README.md
+        input(
+                type='radio'
+                name='hosted_files'
+                id='fileID_README.md'
+            )
+        label(
+                for='fileID_README.md'
+                @click="click('README.md', null, 'README.md')"
+            ) README.md
 
-    //- users.json
+        //- users.json
 
-    input(
-            type='radio'
-            name='hosted_files'
-            id='fileID_USERS.json'
-        )
-    label(
-            v-if='$root.isAdmin'
-            for='fileID_USERS.json'
-            @click="click('USERS.json', null, 'USERS.json')"
-        ) USERS
+        input(
+                type='radio'
+                name='hosted_files'
+                id='fileID_USERS.json'
+            )
+        label(
+                for='fileID_USERS.json'
+                @click="click('USERS.json', null, 'USERS.json')"
+            ) USERS
 
     hr

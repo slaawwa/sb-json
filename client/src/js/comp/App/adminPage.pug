@@ -20,32 +20,8 @@
                         v-on:change-content='changeFileContent'
                     )
             .jumbotron(v-else, key='jumbotron')
-                //- Select file
-                h1
-                    a#Structure_for_development_api_0
-                    | Structure for development api
-                h2
-                    a#How_to_use_2
-                    | How to use
-                ul
-                    li Click on ‘NEW FOLDER’ for create new folder
-                    li Right click on other folders and input new file name for create new file
-                    li
-                        | Click on file for open current file
-                        ul
-                            li Change file and click "Save" or ‘Ctrl + S’
-                            li Click ‘DEL’ for delete file
-                            li Click ‘X’ for close file
-                            li Click ‘Try OPEN’ for try open link in new tab
-                    li
-                        | Extra:
-                        ul
-                            li Right cick on ‘NEW FOLDER’ for create file in root directory
-                            li Double click on other folder for delete this directory
-                            li For create folder in folder: Right click on other folder type name with ‘.’
-                    li
-                        div Webpack proxy config example
-                        img.img-thumbnail(
-                                src='/img/proxy.jpg'
-                                alt='Proxy config example'
-                            )
+                include:replace(
+                        from='src="/img/proxy.jpg"'
+                        to='class="img-thumbnail" '
+                        mode='add:before'
+                    ):markdown-it ../../../../../README.md

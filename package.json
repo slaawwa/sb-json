@@ -43,6 +43,7 @@
     "gulp": "^3.9.1",
     "gulp-git-sftp": "0.0.17",
     "html-webpack-plugin": "^3.2.0",
+    "jstransformer-markdown-it": "^2.1.0",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
     "pug": "^2.0.3",

@@ -84,7 +84,38 @@ export default ({mode}) => {
                       // this applies to <template lang="pug"> in Vue components
                       {
                         resourceQuery: /^\?vue/,
-                        use: ['pug-plain-loader']
+                        use: [{
+                            loader: 'pug-plain-loader',
+                            options: {
+                                filters: {
+                                    replace: function (text, options={}) {
+
+                                        const {
+                                            mode='replace',
+                                            from='',
+                                        } = options
+
+                                        let to = options.to || ''
+                                        let next = true
+
+                                        switch (mode) {
+                                            case 'add:before':
+                                                to = `${to}${from}`
+                                                next = false
+                                            case 'add:after':
+                                                if (next) {
+                                                    to = `${from}${to}`
+                                                    next = false
+                                                }
+                                            case 'replace':
+                                                text = text.replace(from, to)
+                                            break;
+                                        }
+                                        return text;
+                                    },
+                                },
+                            },
+                        }]
                       },
                       // this applies to pug imports inside JavaScript
                       {
