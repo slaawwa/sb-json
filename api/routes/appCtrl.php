@@ -11,6 +11,9 @@ $options = [
 return [
     '/api/?cmd=admin-',
     function($body, $cnf) use ($errorFile) {
+        if (!headers_sent()) {
+            header('Access-Control-Allow-Origin: *');
+        }
         $file = app::scanDir(substr( $_GET['cmd'], 6 ));
         $ext = pathinfo($file)['extension'];
         if ($ext === 'php') {
