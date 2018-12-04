@@ -1,5 +1,7 @@
 
-nav.navbar.navbar-inverse.navbar-fixed-top
+nav.navbar.navbar-inverse.navbar-fixed-top(
+        v-if="$router.currentRoute.name !== 'login' && $app.page"
+    )
     .container-fluid
         .navbar-header
             button.navbar-toggle.collapsed(
@@ -74,7 +76,7 @@ nav.navbar.navbar-inverse.navbar-fixed-top
                             type="button"
                             data-toggle="modal"
                             data-target="#myModal"
-                            @click="showBackup = true"
+                            @click="$app.showBackup = true"
                             title="Backups"
                         )
                             i.glyphicon.glyphicon-cloud-download
@@ -86,4 +88,4 @@ nav.navbar.navbar-inverse.navbar-fixed-top
                         )
                         i.glyphicon.glyphicon-log-out
                         | 
-                        | {{ user.name }}
+                        | {{ $app.user.name }}

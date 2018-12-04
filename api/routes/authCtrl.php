@@ -41,6 +41,8 @@ return [
                 if (isset($hash) && (string) $hash === (string) app::createHash($body)) {
                     $res['success'] = true;
                     $res['data'] = $user;
+                } else {
+                    $res['mess'] = 'Wrong login or password!';
                 }
             }
             // Send response
@@ -63,7 +65,7 @@ return [
 
             return [
                 'success' => $success,
-                'message' => $success? '': 'Bad token',
+                'mess' => $success? '': 'Bad token',
                 'data' => $data,
             ];
         },

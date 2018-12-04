@@ -19,7 +19,7 @@ Vue.prototype.$api = ((cnf=[]) => {
                     counter++
                 }
             }
-            
+
             if (localStorage.token && !c.noToken) {
                 data.token = localStorage.token
             }
@@ -34,7 +34,7 @@ Vue.prototype.$api = ((cnf=[]) => {
                 delete headers['Content-Type']
             }
             
-            return window.fetch(typeof c.url === 'function'? c.url(): c.url, {
+            return fetch(typeof c.url === 'function'? c.url(): c.url, {
                 method: c.method || 'POST',
                 headers,
                 // credentials: 'same-origin',
