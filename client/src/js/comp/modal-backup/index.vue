@@ -45,7 +45,7 @@ export default {
         backupSwitch() {
             if (confirm('Switch cmd-admin-tmp / cmd-admin folders?')) {
                 this.$api.switchBackup().then(() => {
-                    this.mess = 'Refresh page...'
+                    this.$app.mess = 'Refresh page...'
                     this.showBackup = false
                     this.getStructure()
                 })
@@ -54,7 +54,7 @@ export default {
         backupApply(file) {
             if (confirm('Are you sure? Apply: ['+file+']')) {
                 this.$api.applyBackup(file).then(() => {
-                    this.mess = 'Refresh page...'
+                    this.$app.mess = 'Refresh page...'
                     this.showBackup = false
                     this.getStructure()
                 })

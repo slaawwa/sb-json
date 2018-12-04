@@ -41,6 +41,16 @@ export default {
             user: {},
         }
     },
+    watch: {
+        mess(mess) {
+            if (mess && !mess.endsWith('...')) {
+                setTimeout(() => this.$app.mess='', 1500)
+            }
+            this.$app && (
+                this.$app.mess = mess
+            )
+        },
+    },
     computed: {
         lang() {
             let ext = this.fName && this.fName.toLowerCase && this.fName.toLowerCase().match(/(\w+)$/)[0]
@@ -64,9 +74,9 @@ export default {
         },
         alertClass() {
             return {
-                colorInfo: this.mess.endsWith('...'),
-                colorDanger: this.mess.endsWith('!'),
-                colorWarning: this.mess.endsWith(' '),
+                colorInfo: this.$app.mess.endsWith('...'),
+                colorDanger: this.$app.mess.endsWith('!'),
+                colorWarning: this.$app.mess.endsWith(' '),
             }
         },
         isAdmin() {
@@ -85,10 +95,10 @@ export default {
                 try {
                     eval(`json = ${this.fileContent}`)
                     this.fileContent = JSON.stringify(json, null, 4)
-                    this.mess = 'Formated success'
+                    this.$app.mess = 'Formated success'
                 } catch (e) {
                     console.error(e)
-                    this.mess = e.toString()+'!'
+                    this.$app.mess = e.toString()+'!'
                 }
             }
         },
@@ -99,7 +109,7 @@ export default {
         selectFileClick(fName, structure, name) {
             this.selectStructure = structure
             this.selectName = name
-            this.mess = 'Opening...'
+            this.$app.mess = 'Opening...'
             this.$api.getFile(fName).then(({file}) => {
                 location.hash = this.fName = fName
                 this.selectFile = file
@@ -107,7 +117,7 @@ export default {
                     ? JSON.stringify(file)
                     : file
                 this.fileBefore = this.fileContent
-                this.mess = ''
+                this.$app.mess = ''
             })
         },
         createFileClick(fName, structure, name='', item='') {
@@ -115,9 +125,9 @@ export default {
             const isFile = file && file.includes('.')
             if (file) {
                 if (isFile) {
-                    this.mess = 'Creating file...'
+                    this.$app.mess = 'Creating file...'
                     this.$api.putFile(`${fName}/${file}`, '').then(data => {
-                        this.mess = 'Created file'
+                        this.$app.mess = 'Created file'
                         let _structure;
                         if (name === '') {
                             // NOTE: in root folder file 
@@ -143,13 +153,13 @@ export default {
         },
         selectFileSave() {
             // const selectFile = 'common/data.json'
-            this.mess = 'Saving...'
+            this.$app.mess = 'Saving...'
             this.$api.putFile(this.fName, this.fileContent).then(data => {
-                this.mess = 'Saved'
+                this.$app.mess = 'Saved'
                 this.fileBefore = this.fileContent
             }).catch(e => {
                 console.log('Saving error:', e)
-                this.mess = 'Saving error!'
+                this.$app.mess = 'Saving error!'
             })
         },
         selectFileOpen() {
@@ -160,7 +170,7 @@ export default {
         },
         selectFileDelete() {
             if (confirm('WARNING!!! Delete file?')) {
-                this.mess = 'Deleting...'
+                this.$app.mess = 'Deleting...'
                 this.$api.delFile(this.fName).then(data => {
 
                     delete this.selectStructure[this.selectName]
@@ -176,7 +186,7 @@ export default {
                     this.structure = {}
 
                     this.selectFile = false
-                    this.mess = 'Deleted!'
+                    this.$app.mess = 'Deleted!'
 
                     this.$nextTick(() => {
                         this.structure = _structure
@@ -218,10 +228,10 @@ export default {
         delFolder(fullName, parentStructure, parentName, folderName) {
             const assure = confirm(`Folder [${fullName}] delete?`)
             if (assure) {
-                this.mess = 'Deleting...'
+                this.$app.mess = 'Deleting...'
                 this.$api.delFolder(fullName).then(() => {
                     // TODO: Need update structure((((
-                    this.mess = 'Folder was deleted!'
+                    this.$app.mess = 'Folder was deleted!'
                     let structure = parentStructure;
                     if (structure === null) {
                         structure = this
@@ -235,7 +245,7 @@ export default {
                     this.$nextTick(() => structure[parentName] = _structure)
 
                 }).catch(e => {
-                    this.mess = 'Error!'
+                    this.$app.mess = 'Error!'
                     console.error('Error:', e)
                 })
             }
@@ -248,7 +258,7 @@ export default {
         getStructure() {
             this.$api.structure().then(structure => {
                 this.structure = structure
-                this.mess = ''
+                this.$app.mess = ''
             })
         },
     },
@@ -257,12 +267,12 @@ export default {
         if (localStorage.token) {
             this.$api.checkToken(localStorage.token)
                 .then(user => {
-                    
+
                     this.$app.page = 'admin'
                     this.$app.user = user
                     this.getStructure()
-                    this.mess = 'Welcome)))'
-            
+                    this.$app.mess = 'Welcome)))'
+
                     // Ctrl + S
                     window.addEventListener('keydown', (e) => {
                         if(e.ctrlKey || e.metaKey) {

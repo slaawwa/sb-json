@@ -41,7 +41,8 @@ return [
                 if (isset($hash) && (string) $hash === (string) app::createHash($body)) {
                     $res['success'] = true;
                     $res['data'] = $user;
-                } else {
+                } else if ($res['data'] === null) {
+                    $res['data'] = 901;
                     $res['mess'] = 'Wrong login or password!';
                 }
             }
@@ -67,6 +68,19 @@ return [
                 'success' => $success,
                 'mess' => $success? '': 'Bad token',
                 'data' => $data,
+            ];
+        },
+        $options,
+    ], [
+        '/api/forgotPass',
+        function($body) {
+
+            app::log('Clear hash from *user:* `'.$body->login.'`');
+
+            return [
+                'success' => true,
+                'mess' => '',
+                'data' => [],
             ];
         },
         $options,

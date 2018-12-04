@@ -61,9 +61,9 @@ nav.navbar.navbar-inverse.navbar-fixed-top(
                 li#alertMess
                     transition(name="bounce")
                         p.navbar-text(
-                                v-if="mess"
-                                :class="alertClass"
-                            ) {{ mess }}
+                                v-if="$app.mess"
+                                :class="$app.alertClass"
+                            ) {{ $app.mess }}
                 li
                     a.btn.btn-success.navbar-btn(
                             target="_blank"

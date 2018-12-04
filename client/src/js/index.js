@@ -14,7 +14,9 @@ const app = Vue.prototype.$app = new Vue({
     },
     watch: {
         mess(mess) {
-            this.$children[0].mess = mess
+            if (mess && !mess.endsWith('...')) {
+                setTimeout(() => this.mess='', 1500)
+            }
         },
         user(user) {
             this.$children[0].user = user
@@ -25,6 +27,13 @@ const app = Vue.prototype.$app = new Vue({
         },
     },
     computed: {
+        alertClass() {
+            return {
+                colorInfo: this.mess.endsWith('...'),
+                colorDanger: this.mess.endsWith('!'),
+                colorWarning: this.mess.endsWith(' '),
+            }
+        },
         isAdmin() {
             return this.$children[0].isAdmin
         },

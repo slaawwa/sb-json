@@ -42,28 +42,9 @@ export default {
         contentIsChanged() {
             return this.fileBefore !== this.fileContent
         },
-        alertClass() {
-            return {
-                colorInfo: this.mess.endsWith('...'),
-                colorDanger: this.mess.endsWith('!'),
-                colorWarning: this.mess.endsWith(' '),
-            }
-        },
         isAdmin() {
             return Boolean(this.user && this.user.status === 9)
         },
-    },
-    watch: {
-        mess(mess) {
-            if (mess && !mess.endsWith('...')) {
-                setTimeout(() => this.mess='', 1500)
-            }
-            this.$app && (
-                this.$app.mess = mess
-            )
-        },
-    },
-    methods: {
     },
 }
     
