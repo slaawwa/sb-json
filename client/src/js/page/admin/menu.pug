@@ -76,7 +76,7 @@ nav.navbar.navbar-inverse.navbar-fixed-top(
                             type="button"
                             data-toggle="modal"
                             data-target="#myModal"
-                            @click="$root.showBackup = true"
+                            @click="$root.showBackup = !$root.showBackup"
                             title="Backups"
                         )
                             i.glyphicon.glyphicon-cloud-download

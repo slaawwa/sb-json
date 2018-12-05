@@ -16,7 +16,7 @@ div
                         )
                         span(
                                 aria-hidden='true'
-                                @click="showBackup = false"
+                                @click="$root.showBackup = false"
                             ) &times;
                     h4#backupModalLabel.modal-title
                         | Backups
@@ -90,6 +90,6 @@ div
                         ) Close
     .modal-backdrop.fade(
             v-if="showBackup"
-            @click="showBackup=false"
+            @click="$root.showBackup=false"
             :class="{'in': showBackup}"
         )

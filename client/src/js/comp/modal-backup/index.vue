@@ -50,7 +50,6 @@ export default {
             if (confirm('Switch cmd-admin-tmp / cmd-admin folders?')) {
                 this.$api.switchBackup().then(() => {
                     this.$root.mess = 'Refresh page...'
-                    this.showBackup = false
                     this.$emit('updateStructure')
                 })
             }
@@ -59,7 +58,6 @@ export default {
             if (confirm('Are you sure? Apply: ['+file+']')) {
                 this.$api.applyBackup(file).then(() => {
                     this.$root.mess = 'Refresh page...'
-                    this.showBackup = false
                     this.$emit('updateStructure')
                 })
             }
@@ -95,6 +93,7 @@ export default {
             }
         },
         backupsRefresh() {
+            this.backupStructure = {}
             this.$api.refreshBackups().then(data => {
                 this.backupStructure = data
             })
