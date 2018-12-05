@@ -29,16 +29,6 @@ export default {
             Object.keys(this.backupStructure).forEach(item => {
                 if (item.startsWith('cmd-admin--backup-')) {
                     downloads[item] = item.substr(18)
-                    let i = 0
-                    downloads[item + i++] = item.substr(18)
-                    downloads[item + i++] = item.substr(18)
-                    downloads[item + i++] = item.substr(18)
-                    downloads[item + i++] = item.substr(18)
-                    downloads[item + i++] = item.substr(18)
-                    downloads[item + i++] = item.substr(18)
-                    downloads[item + i++] = item.substr(18)
-                    downloads[item + i++] = item.substr(18)
-                    downloads[item + i++] = item.substr(18)
                 }
             })
 
