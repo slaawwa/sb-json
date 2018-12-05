@@ -1,11 +1,8 @@
-import Vue from 'vue'
 
 import Router from 'vue-router'
 
-import pageLogin from './comp/pageLogin'
-import pageAdmin from './comp/pageAdmin'
-
-Vue.use(Router)
+import pageLogin from './page/login'
+import pageAdmin from './page/admin'
 
 const router = new Router({
     mode: 'history',
@@ -47,3 +44,4 @@ router.beforeEach((to, from, next) => {
 })
 
 export default router
+export {Router}

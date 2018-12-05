@@ -82,8 +82,8 @@ export default {
             this.$api.auth(data)
                 .then(user => {
                     localStorage.token = user.hash
-                    this.$app.user = user
-                    this.$app.mess = 'Welcome)))'
+                    this.$root.user = user
+                    this.$root.mess = 'Welcome)))'
                     const url = this.$route.query.redirect || '/'
                     this.$router.push(`${url}${location.hash}`)
                 })

@@ -1,11 +1,19 @@
 
 import Vue from 'vue'
 
-import api from './api'
-import router from './router'
+import routes, {apiPlugin} from './api'
+import router, {Router} from './router'
+import './comp'
 
-const app = Vue.prototype.$app = new Vue({
+Vue.use(apiPlugin, {routes})
+
+Vue.use(Router)
+
+const app = new Vue({
     router,
+    render: h => h({
+        template: '<router-view id="app"/>',
+    }),
     data: {
         page: null,
         mess: '',
@@ -18,13 +26,6 @@ const app = Vue.prototype.$app = new Vue({
                 setTimeout(() => this.mess='', 1500)
             }
         },
-        user(user) {
-            this.$children[0].user = user
-        },
-        showBackup(showBackup) {
-            const modalBackup = this.$children[0].$children[0].$children[1]
-            modalBackup.showBackup = showBackup
-        },
     },
     computed: {
         alertClass() {
@@ -35,12 +36,10 @@ const app = Vue.prototype.$app = new Vue({
             }
         },
         isAdmin() {
-            return this.$children[0].isAdmin
+            return this.user.status === 9
         },
     },
 })
 
-export {
-    app,
-    api,
-}
+export {app}
+export default app

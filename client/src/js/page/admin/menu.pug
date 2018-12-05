@@ -1,6 +1,6 @@
 
 nav.navbar.navbar-inverse.navbar-fixed-top(
-        v-if="$router.currentRoute.name !== 'login' && $app.page"
+        v-if="$router.currentRoute.name !== 'login' && $root.page"
     )
     .container-fluid
         .navbar-header
@@ -61,9 +61,9 @@ nav.navbar.navbar-inverse.navbar-fixed-top(
                 li#alertMess
                     transition(name="bounce")
                         p.navbar-text(
-                                v-if="$app.mess"
-                                :class="$app.alertClass"
-                            ) {{ $app.mess }}
+                                v-if="$root.mess"
+                                :class="$root.alertClass"
+                            ) {{ $root.mess }}
                 li
                     a.btn.btn-success.navbar-btn(
                             target="_blank"
@@ -76,7 +76,7 @@ nav.navbar.navbar-inverse.navbar-fixed-top(
                             type="button"
                             data-toggle="modal"
                             data-target="#myModal"
-                            @click="$app.showBackup = true"
+                            @click="$root.showBackup = true"
                             title="Backups"
                         )
                             i.glyphicon.glyphicon-cloud-download
@@ -88,4 +88,4 @@ nav.navbar.navbar-inverse.navbar-fixed-top(
                         )
                         i.glyphicon.glyphicon-log-out
                         | 
-                        | {{ $app.user.name }}
+                        | {{ $root.user.name }}

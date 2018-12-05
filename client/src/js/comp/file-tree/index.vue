@@ -1,6 +1,6 @@
 
 <template lang="pug">
-div(:class='_class')
+div(:class='isFirst? "file_tree": "dir_wrapper"')
     include top
     template(v-for='(item, name) in _structure')
         include folder
@@ -37,10 +37,6 @@ div(:class='_class')
             contextClick: Function,
             clickNew: Function,
             dblclickFolder: Function,
-            _class: {
-                type: String,
-                default: 'file_tree',
-            },
             _parentStructure: {
                 type: Object,
                 default: null,

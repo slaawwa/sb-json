@@ -4,18 +4,22 @@
 <script>
 export default {
     name: 'modal-backup',
+    props: {
+        showBackup:{
+            attributes: Boolean,
+            default: false,
+            required: false,
+        },
+    },
     data() {
         return {
             backupStructure: {},
-            showBackup: false,
         }
     },
     watch: {
         showBackup(show) {
             if (show) {
                 this.backupsRefresh()
-            } else {
-                this.$app.showBackup = false
             }
         },
     },
@@ -45,18 +49,18 @@ export default {
         backupSwitch() {
             if (confirm('Switch cmd-admin-tmp / cmd-admin folders?')) {
                 this.$api.switchBackup().then(() => {
-                    this.$app.mess = 'Refresh page...'
+                    this.$root.mess = 'Refresh page...'
                     this.showBackup = false
-                    this.getStructure()
+                    this.$emit('updateStructure')
                 })
             }
         },
         backupApply(file) {
             if (confirm('Are you sure? Apply: ['+file+']')) {
                 this.$api.applyBackup(file).then(() => {
-                    this.$app.mess = 'Refresh page...'
+                    this.$root.mess = 'Refresh page...'
                     this.showBackup = false
-                    this.getStructure()
+                    this.$emit('updateStructure')
                 })
             }
         },

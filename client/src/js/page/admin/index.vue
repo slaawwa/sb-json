@@ -1,19 +1,17 @@
 
 <template lang="pug">
-    div
-        div(v-if='$app.page', key='content')
-            include menu
-            include index
-            modal-backup
-        div#pageLoading(v-else, key='page-loader')
-            | Initialization...
+    div(v-if='$root.page', key='content')
+        include menu
+        include index
+        modal-backup(
+                @updateStructure='getStructure'
+                :showBackup='$root.showBackup'
+            )
+    div(v-else, key='page-loader')
+        #pageLoading Initialization...
 </template>
 
 <script>
-
-import editor from '../editor'
-import fileTree from '../file-tree/index'
-import modalBackup from '../modal-backup/index'
 
 const CANT_DELETE_FOLDERS = [
     'README.md',
@@ -22,11 +20,6 @@ const CANT_DELETE_FOLDERS = [
 ];
 
 export default {
-    components: {
-        editor,
-        fileTree,
-        modalBackup,
-    },
     data() {
         return {
             fName: '',
@@ -44,11 +37,9 @@ export default {
     watch: {
         mess(mess) {
             if (mess && !mess.endsWith('...')) {
-                setTimeout(() => this.$app.mess='', 1500)
+                setTimeout(() => this.$root.mess='', 1500)
             }
-            this.$app && (
-                this.$app.mess = mess
-            )
+            this.$root.mess = mess
         },
     },
     computed: {
@@ -72,21 +63,11 @@ export default {
         contentIsChanged() {
             return this.fileBefore !== this.fileContent
         },
-        alertClass() {
-            return {
-                colorInfo: this.$app.mess.endsWith('...'),
-                colorDanger: this.$app.mess.endsWith('!'),
-                colorWarning: this.$app.mess.endsWith(' '),
-            }
-        },
-        isAdmin() {
-            return Boolean(this.user && this.user.status === 9)
-        },
     },
     methods: {
         logOut() {
             localStorage.removeItem('token')
-            this.$app.user = {};
+            this.$root.user = {};
             this.$router.push(`/login${location.hash}`);
         },
         file2pretty() {
@@ -95,10 +76,10 @@ export default {
                 try {
                     eval(`json = ${this.fileContent}`)
                     this.fileContent = JSON.stringify(json, null, 4)
-                    this.$app.mess = 'Formated success'
+                    this.$root.mess = 'Formated success'
                 } catch (e) {
                     console.error(e)
-                    this.$app.mess = e.toString()+'!'
+                    this.$root.mess = e.toString()+'!'
                 }
             }
         },
@@ -109,7 +90,7 @@ export default {
         selectFileClick(fName, structure, name) {
             this.selectStructure = structure
             this.selectName = name
-            this.$app.mess = 'Opening...'
+            this.$root.mess = 'Opening...'
             this.$api.getFile(fName).then(({file}) => {
                 location.hash = this.fName = fName
                 this.selectFile = file
@@ -117,7 +98,7 @@ export default {
                     ? JSON.stringify(file)
                     : file
                 this.fileBefore = this.fileContent
-                this.$app.mess = ''
+                this.$root.mess = ''
             })
         },
         createFileClick(fName, structure, name='', item='') {
@@ -125,9 +106,9 @@ export default {
             const isFile = file && file.includes('.')
             if (file) {
                 if (isFile) {
-                    this.$app.mess = 'Creating file...'
+                    this.$root.mess = 'Creating file...'
                     this.$api.putFile(`${fName}/${file}`, '').then(data => {
-                        this.$app.mess = 'Created file'
+                        this.$root.mess = 'Created file'
                         let _structure;
                         if (name === '') {
                             // NOTE: in root folder file 
@@ -153,13 +134,13 @@ export default {
         },
         selectFileSave() {
             // const selectFile = 'common/data.json'
-            this.$app.mess = 'Saving...'
+            this.$root.mess = 'Saving...'
             this.$api.putFile(this.fName, this.fileContent).then(data => {
-                this.$app.mess = 'Saved'
+                this.$root.mess = 'Saved'
                 this.fileBefore = this.fileContent
             }).catch(e => {
                 console.log('Saving error:', e)
-                this.$app.mess = 'Saving error!'
+                this.$root.mess = 'Saving error!'
             })
         },
         selectFileOpen() {
@@ -170,7 +151,7 @@ export default {
         },
         selectFileDelete() {
             if (confirm('WARNING!!! Delete file?')) {
-                this.$app.mess = 'Deleting...'
+                this.$root.mess = 'Deleting...'
                 this.$api.delFile(this.fName).then(data => {
 
                     delete this.selectStructure[this.selectName]
@@ -186,7 +167,7 @@ export default {
                     this.structure = {}
 
                     this.selectFile = false
-                    this.$app.mess = 'Deleted!'
+                    this.$root.mess = 'Deleted!'
 
                     this.$nextTick(() => {
                         this.structure = _structure
@@ -228,10 +209,10 @@ export default {
         delFolder(fullName, parentStructure, parentName, folderName) {
             const assure = confirm(`Folder [${fullName}] delete?`)
             if (assure) {
-                this.$app.mess = 'Deleting...'
+                this.$root.mess = 'Deleting...'
                 this.$api.delFolder(fullName).then(() => {
                     // TODO: Need update structure((((
-                    this.$app.mess = 'Folder was deleted!'
+                    this.$root.mess = 'Folder was deleted!'
                     let structure = parentStructure;
                     if (structure === null) {
                         structure = this
@@ -245,7 +226,7 @@ export default {
                     this.$nextTick(() => structure[parentName] = _structure)
 
                 }).catch(e => {
-                    this.$app.mess = 'Error!'
+                    this.$root.mess = 'Error!'
                     console.error('Error:', e)
                 })
             }
@@ -256,40 +237,47 @@ export default {
             }
         },
         getStructure() {
-            this.$api.structure().then(structure => {
+            return this.$api.structure().then(structure => {
                 this.structure = structure
-                this.$app.mess = ''
+                this.$root.mess = ''
             })
+        },
+        setUser(user) {
+            this.$root.page = 'admin'
+            this.$root.user = user
+            this.getStructure().then(() => {
+                // Ctrl + S
+                window.addEventListener('keydown', (e) => {
+                    if(e.ctrlKey || e.metaKey) {
+                        if (e.code === 'KeyS') {
+                            e.preventDefault()
+                            this.selectFileSave()
+                        }
+                    }
+                });
+            })
+            this.$root.mess = 'Welcome)))'
+            return Promise.resolve(user)
         },
     },
     mounted() {
         // Auto Auth
         if (localStorage.token) {
-            this.$api.checkToken(localStorage.token)
-                .then(user => {
 
-                    this.$app.page = 'admin'
-                    this.$app.user = user
-                    this.getStructure()
-                    this.$app.mess = 'Welcome)))'
+            let req = Object.keys(this.$root.user).length
+                ? new Promise(fn => fn(this.$root.user))
+                : this.$api.checkToken(localStorage.token)
 
-                    // Ctrl + S
-                    window.addEventListener('keydown', (e) => {
-                        if(e.ctrlKey || e.metaKey) {
-                            if (e.code === 'KeyS') {
-                                e.preventDefault()
-                                this.selectFileSave()
-                            }
-                        }
-                    });
-                })
+            req
+                .then(this.setUser)
                 .catch(() => {
                     localStorage.removeItem('token');
                     alert('Uncorect token')
-                    this.$app.page = 'login'
-                });
+                    this.$root.page = 'login'
+                })
+
         } else {
-            this.$app.page = 'login'
+            this.$root.page = 'login'
         }
     },
 }

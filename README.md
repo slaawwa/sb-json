@@ -16,5 +16,5 @@
 	- For create foloder in folder: Right click on other folder and type name withot '.'
 
 ## Webpack proxy config example
-    
+
 ![Webpack proxy config example](/img/proxy.jpg)
