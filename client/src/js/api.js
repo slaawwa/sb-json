@@ -8,7 +8,6 @@ export default {
     // Auth
     auth: [{
         name: 'auth',
-        // params: ['login', 'pass'],
         url: '/api/auth'
     }, {
         name: 'checkToken',
