@@ -31,7 +31,7 @@ $_cnf = (object) [
     'defaultApiAuth' => true,
 ];
 
-if (class_exists(app)) {
+if (class_exists('app')) {
 
     $_cnf->passHash = app::passHash($cnf->pass);
     

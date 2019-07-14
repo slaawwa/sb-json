@@ -1,5 +1,7 @@
 <?php
 
+  // ini_set('display_errors','off');
+
   require('app.php');
 
   $cnf = require('../config/cnf.php');

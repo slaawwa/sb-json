@@ -25,7 +25,9 @@ class APP {
     }
     
     static public function get($propName) {
-        return self::$_props[$propName];
+        return array_key_exists($propName, self::$_props)
+            ? self::$_props[$propName]
+            : null;
     }
 
     static public function checkPass($pass) {
@@ -53,7 +55,8 @@ class APP {
         if (strlen($pass) === 0) {
             return $hash;
         }
-        $pass .= self::get('config')->salt;
+        $cnf = self::get('config');
+        $pass .= empty(self::get('config')) ? '' : $cnf->salt;
         for ($i = 0; $i < strlen($pass); $i++) {
             $chr = ord($pass[$i]);
             $hash  = (($hash << 5) - $hash) + $chr;
@@ -122,7 +125,9 @@ class APP {
     }
 
     static public function listFolders($dir) {
-
+        if (!file_exists($dir) && !is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
         $dh = scandir($dir);
         $return = [];
         $files = [];
@@ -159,7 +164,7 @@ class APP {
             self::$_phpInput = $input;
         }
         return $name && gettype($input) === 'object'
-            ? $input->$name
+            ? (property_exists($input, $name) ? $input->$name : '')
             : $input;
     }
 
